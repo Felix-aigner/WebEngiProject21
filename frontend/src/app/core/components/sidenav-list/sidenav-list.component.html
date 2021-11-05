@@ -1,0 +1,11 @@
+<mat-nav-list>
+  <a mat-list-item (click)="onSidenavClose()">
+    <mat-icon>close</mat-icon>
+    <span class="nav-caption">Close</span>
+  </a>
+  <div *ngFor="let route of routes">
+    <a mat-list-item [routerLink]="route.path" (click)="onSidenavClose()">
+      <span class="nav-caption">{{route.title}}</span>
+    </a>
+  </div>
+</mat-nav-list>
