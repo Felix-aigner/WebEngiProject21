@@ -1,4 +1,8 @@
-<p>app-bar works!</p>
-<div *ngFor="let route of routes">
-  {{route}}
-</div>
+<mat-toolbar color="primary">
+  <div>
+    <button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <h1>Schmettr</h1>
+</mat-toolbar>

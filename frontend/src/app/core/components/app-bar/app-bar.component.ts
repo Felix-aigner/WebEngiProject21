@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-app-bar',
@@ -7,11 +7,16 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class AppBarComponent implements OnInit {
   @Input() routes: any[] = [];
+  @Output() public sidenavToggle = new EventEmitter();
 
   constructor() {
   }
 
   ngOnInit(): void {
+  }
+
+  public onToggleSidenav = () => {
+    this.sidenavToggle.emit();
   }
 
 }
