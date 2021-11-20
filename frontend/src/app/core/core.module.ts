@@ -10,6 +10,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {SidenavListComponent} from './components/sidenav-list/sidenav-list.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     MatIconModule,
     MatListModule,
     MatSidenavModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCardModule
   ]
 })
 export class CoreModule {

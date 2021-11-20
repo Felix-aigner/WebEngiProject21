@@ -1,0 +1,17 @@
+<form [formGroup]="newMessageForm">
+  <div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Whats going on?</mat-label>
+      <textarea formControlName="messageText" matInput placeholder=""></textarea>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="fill">
+      <mat-label>Categories</mat-label>
+      <mat-select formControlName="categories" multiple>
+        <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+</form>
