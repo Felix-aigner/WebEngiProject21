@@ -9,6 +9,8 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
+import {dashboardFeatureKey, dashboardReducer} from "./store/dashboard.reducer";
+import {StoreModule} from "@ngrx/store";
 
 
 @NgModule({
@@ -20,6 +22,7 @@ import {MatOptionModule} from "@angular/material/core";
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    StoreModule.forFeature(dashboardFeatureKey, dashboardReducer),
     MatCardModule,
     MatInputModule,
     ReactiveFormsModule,
