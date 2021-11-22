@@ -11,6 +11,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {dashboardFeatureKey, dashboardReducer} from "./store/dashboard.reducer";
 import {StoreModule} from "@ngrx/store";
+import {SharedModule} from "../shared/shared.module";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import {StoreModule} from "@ngrx/store";
     MatInputModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatOptionModule
+    MatOptionModule,
+    SharedModule,
+    MatButtonModule
   ]
 })
 export class DashboardModule {

@@ -1,1 +1,5 @@
-<p>message-feed works!</p>
+<div *ngFor="let msg of messages">
+  <app-message-card
+    [msg]="msg"
+  ></app-message-card>
+</div>

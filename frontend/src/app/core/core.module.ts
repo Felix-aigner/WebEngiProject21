@@ -11,6 +11,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {SidenavListComponent} from './components/sidenav-list/sidenav-list.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {MatCardModule} from "@angular/material/card";
     MatListModule,
     MatSidenavModule,
     MatTabsModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ]
 })
 export class CoreModule {
