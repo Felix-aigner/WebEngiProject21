@@ -31,4 +31,12 @@ export class MessageCardComponent implements OnInit {
       data: this.msg
     });
   }
+
+  getCategories() {
+    let catString = ''
+    this.msg.categories.forEach((category, index) => {
+      catString += ` #${category.name}`
+    })
+    return catString
+  }
 }

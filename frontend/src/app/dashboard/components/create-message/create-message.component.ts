@@ -28,7 +28,7 @@ export class CreateMessageComponent implements OnInit {
 
   submitNewMessage() {
     const newMsg: Message = {
-      text: this.newMessageForm.controls['text'].value,
+      text: this.newMessageForm.controls['messageText'].value,
       categories: this.newMessageForm.controls['categories'].value,
       upvotes: 0,
       downvotes: 0,

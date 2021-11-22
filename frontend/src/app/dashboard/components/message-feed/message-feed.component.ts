@@ -8,13 +8,39 @@ import {Message} from "../../../shared/models/message.model";
 })
 export class MessageFeedComponent implements OnInit {
 
-  @Input() messages: Message[] = [{
-    text: "awd",
-    comments: [],
-    upvotes: 3,
-    downvotes: 2,
-    categories: []
-  }]
+  @Input() messages: Message[] = [
+    {
+      text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
+      comments: [],
+      upvotes: 3,
+      downvotes: 2,
+      categories: [
+        {name: 'politics'},
+        {name: 'climate'},
+        {name: 'personal affairs'}
+      ]
+    }, {
+      text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
+      comments: [],
+      upvotes: 3,
+      downvotes: 2,
+      categories: [
+        {name: 'politics'},
+        {name: 'climate'},
+        {name: 'personal affairs'}
+      ]
+    }, {
+      text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
+      comments: [],
+      upvotes: 3,
+      downvotes: 2,
+      categories: [
+        {name: 'politics'},
+        {name: 'climate'},
+        {name: 'personal affairs'}
+      ]
+    },
+  ]
 
   constructor() {
   }
@@ -22,4 +48,7 @@ export class MessageFeedComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  openFilterPanel() {
+
+  }
 }
