@@ -15,6 +15,10 @@ export class DashboardService {
     return this.http.get<Message[]>('');
   }
 
+  postMessage(msg: Message) {
+    return this.http.post('', msg);
+  }
+
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>('');
   }
