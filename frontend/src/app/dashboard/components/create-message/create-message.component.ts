@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {Category} from "../../../shared/models/category.model";
+import {Message} from "../../../shared/models/message.model";
 
 @Component({
   selector: 'app-create-message',
@@ -25,4 +26,14 @@ export class CreateMessageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  submitNewMessage() {
+    const newMsg: Message = {
+      text: this.newMessageForm.controls['text'].value,
+      categories: this.newMessageForm.controls['categories'].value,
+      upvotes: 0,
+      downvotes: 0,
+      comments: []
+    }
+
+  }
 }

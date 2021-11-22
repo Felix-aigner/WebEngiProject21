@@ -5,10 +5,10 @@
   <mat-sidenav-content>
     <app-app-bar (sidenavToggle)="sidenav.toggle()"></app-app-bar>
     <main>
-      <div class="main-card">
-        <mat-card>
+      <div class="row main-card d-flex justify-content-center">
+        <div class="col-xs-12 col-sm-10 col-m-8 col-lg-7 col-xl-5">
           <router-outlet></router-outlet>
-        </mat-card>
+        </div>
       </div>
     </main>
   </mat-sidenav-content>

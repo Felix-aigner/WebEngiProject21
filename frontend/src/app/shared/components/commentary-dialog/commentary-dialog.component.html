@@ -1,0 +1,30 @@
+<div>
+  <p>from: username</p>
+  <p>{{msg.text}}</p>
+  <div class="row d-flex justify-content-end">
+    <div class="col-4 row counter">
+      <button mat-button (click)="upvote()">
+        <mat-icon aria-hidden="false">thumb_up</mat-icon>
+        <span class="m-1">{{msg.upvotes}}</span>
+      </button>
+    </div>
+    <div class="col-4 row counter">
+      <button mat-button (click)="downvote()">
+        <mat-icon aria-hidden="false">thumb_down</mat-icon>
+        <span class="m-1">{{msg.downvotes}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<h3>Comments</h3>
+<div *ngFor="let comment of msg.comments">comment</div>
+
+<div class="row">
+  <form [formGroup]="commentaryForm">
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Write your comment</mat-label>
+      <textarea formControlName="text" matInput placeholder=""></textarea>
+    </mat-form-field>
+  </form>
+</div>

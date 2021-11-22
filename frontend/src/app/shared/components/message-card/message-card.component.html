@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-header>from: username</mat-card-header>
+  <mat-card-content>
+    <p>{{msg.text}}</p>
+    <div class="row d-flex justify-content-end">
+      <div class="col-2 row counter">
+        <button mat-button (click)="openComments()">
+          <mat-icon aria-hidden="false">chat_bubble</mat-icon>
+          <span class="m-1">{{msg.comments.length}}</span>
+        </button>
+      </div>
+      <div class="col-2 row counter">
+        <button mat-button (click)="upvote()">
+          <mat-icon aria-hidden="false">thumb_up</mat-icon>
+          <span class="m-1">{{msg.upvotes}}</span>
+        </button>
+      </div>
+      <div class="col-2 row counter">
+        <button mat-button (click)="downvote()">
+          <mat-icon aria-hidden="false">thumb_down</mat-icon>
+          <span class="m-1">{{msg.downvotes}}</span>
+        </button>
+      </div>
+    </div>
+
+  </mat-card-content>
+  <mat-card-footer>
+    <div class="d-flex justify-content-center">
+      <button mat-button (click)="openComments()">Write a comment</button>
+    </div>
+  </mat-card-footer>
+</mat-card>
