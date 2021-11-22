@@ -29,6 +29,8 @@ export class MessageCardComponent implements OnInit {
     const dialogRef = this.dialog.open(CommentaryDialogComponent, {
       width: '350px',
       data: this.msg
-    });
+    })
+    .afterClosed()
+    .subscribe();
   }
 }

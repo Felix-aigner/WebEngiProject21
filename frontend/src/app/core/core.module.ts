@@ -12,6 +12,7 @@ import {SidenavListComponent} from './components/sidenav-list/sidenav-list.compo
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatButtonModule} from "@angular/material/button";
     MatSidenavModule,
     MatTabsModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule
   ]
 })
 export class CoreModule {
