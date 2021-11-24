@@ -7,11 +7,11 @@ namespace Persistence.Interfaces
 {
     public interface IMessageRepository
     {
-        Message Create(MessageDto messageDto);
-        void Delete(MessageDto messageDto);
+        Message Create(MessageCreateDto messageDto);
+        void Delete(Message message);
         Message GetBy(Guid id);
         List<Message> GetAll();
-        List<Message> GetByCategory(List<CategoryDto> categoriesDto);
+        List<Message> GetByCategories(List<Guid> categoryIds);
         //Message AddComment(MessageDto messageDto, CommentDto commentDto);
     }
 }

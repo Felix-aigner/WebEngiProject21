@@ -20,19 +20,20 @@ namespace Persistence
             _mapper = mapper;
         }
 
-        public Message Create(MessageDto messageDto)
+        public Message Create(MessageCreateDto messageDto)
         {
             var owner = _dbContext.Users.FirstOrDefault(u => u.Id == messageDto.OwnerId);
+            var categories = _dbContext.Categories.Where(c => messageDto.CategoriesId.Contains(c.Id)).ToList();
             var message = _mapper.Map<Message>(messageDto);
             message.Owner = owner;
+            message.Categories = categories;
             var createdMessage = _dbContext.Messages.Add(message).Entity;
             _dbContext.SaveChanges();
             return createdMessage;
         }
 
-        public void Delete(MessageDto messageDto)
+        public void Delete(Message message)
         {
-            var message = _mapper.Map<Message>(messageDto);
             _dbContext.Remove(message);
             _dbContext.SaveChanges();
         }
@@ -40,21 +41,32 @@ namespace Persistence
         public Message GetBy(Guid id)
         {
             return _dbContext.Messages
-                             //.Include(m => m.Owner)
-                             //.Include(m => m.Categories)
-                             //.Include(m => m.Comments)
+                             .Include(m => m.Owner)
+                             .Include(m => m.Categories)
+                             .Include(m => m.Comments)
+                             .Include(m => m.Votes)
                              .SingleOrDefault(m => m.Id == id);
         }
 
         public List<Message> GetAll()
         {
-            return _dbContext.Messages.OrderBy(m => m.CreatedDate).ToList();
+            return _dbContext.Messages.OrderBy(m => m.CreatedDate)
+                             .Include(m => m.Owner)
+                             .Include(m => m.Categories)
+                             .Include(m => m.Comments)
+                             .Include(m => m.Votes)
+                             .ToList();
         }
 
-        public List<Message> GetByCategory(List<CategoryDto> categoriesDto)
+        public List<Message> GetByCategories(List<Guid> categoryIds)
         {
-            var categories = _mapper.Map<List<Category>>(categoriesDto);
-            return _dbContext.Messages.Where(m => m.Categories.Any(categories.Contains)).ToList();
+            return _dbContext.Messages
+                             .Include(m => m.Owner)
+                             .Include(m => m.Categories)
+                             .Include(m => m.Comments)
+                             .Include(m => m.Votes)
+                             .Where(m => m.Categories.Any(c => categoryIds.Contains(c.Id)))
+                             .ToList();
         }
 
         //public Message AddComment(MessageDto message, CommentDto comment)

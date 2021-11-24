@@ -3,7 +3,7 @@ using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
 
-namespace Services
+namespace Web
 {
     public class MappingProfiles : Profile
     {
@@ -23,11 +23,23 @@ namespace Services
                     entity => entity.CreatedDate,
                     opt => opt.MapFrom(x => DateTime.Now)
                     );
+            CreateMap<Message, MessageCreateDto>()
+                .ReverseMap()
+                .ForMember(
+                    entity => entity.CreatedDate,
+                    opt => opt.MapFrom(x => DateTime.Now)
+                );
         }
 
         public void UserMaps()
         {
             CreateMap<User, UserDto>()
+                .ReverseMap()
+                .ForMember(
+                    entity => entity.CreatedDate,
+                    opt => opt.MapFrom(x => DateTime.Now)
+                );
+            CreateMap<User, UserCreateDto>()
                 .ReverseMap()
                 .ForMember(
                     entity => entity.CreatedDate,
@@ -43,11 +55,23 @@ namespace Services
                     entity => entity.CreatedDate,
                     opt => opt.MapFrom(x => DateTime.Now)
                 );
+            CreateMap<Comment, CommentCreateDto>()
+                .ReverseMap()
+                .ForMember(
+                    entity => entity.CreatedDate,
+                    opt => opt.MapFrom(x => DateTime.Now)
+                );
         }
 
         public void CategoryMaps()
         {
             CreateMap<Category, CategoryDto>()
+                .ReverseMap()
+                .ForMember(
+                    entity => entity.CreatedDate,
+                    opt => opt.MapFrom(x => DateTime.Now)
+                );
+            CreateMap<Category, CategoryCreateDto>()
                 .ReverseMap()
                 .ForMember(
                     entity => entity.CreatedDate,

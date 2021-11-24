@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
@@ -8,16 +7,8 @@ namespace Domain.Dtos
     /// 
     /// </summary>
     [DataContract]
-    public class UserDto
+    public class UserCreateDto
     {
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [Required]
-        [DataMember(Name = "id")]
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
@@ -31,6 +22,13 @@ namespace Domain.Dtos
         [Required]
         [DataMember(Name="email")]
         public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Password
+        /// </summary>
+        [Required]
+        [DataMember(Name="password")]
+        public string Password { get; set; }
 
     }
 }

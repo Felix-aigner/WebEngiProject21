@@ -5,7 +5,7 @@ namespace Services.Interfaces
 {
     public interface ICategoryService
     {
-        CategoryDto Create(CategoryDto categoryDto);
+        CategoryDto Create(CategoryCreateDto categoryDto);
         List<CategoryDto> GetAll();
     }
 }

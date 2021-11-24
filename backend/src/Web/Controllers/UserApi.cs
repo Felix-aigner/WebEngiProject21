@@ -48,7 +48,7 @@ namespace Web.Controllers
         [Route("/schmettr/schmettr/1.0.0/user")]
         [ValidateModelState]
         [SwaggerOperation("CreateUser")]
-        public virtual IActionResult CreateUser([FromBody]UserDto body)
+        public virtual IActionResult CreateUser([FromBody]UserCreateDto body)
         {
             try
             {
@@ -92,6 +92,44 @@ namespace Web.Controllers
             {
                 return Problem(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Updated user
+        /// </summary>
+        /// <remarks>This can only be done by the logged in user.</remarks>
+        /// <param name="userId">Update userid</param>
+        /// <param name="username">name that need to be updated</param>
+        /// <response code="400">Invalid user supplied</response>
+        /// <response code="404">User not found</response>
+        [HttpPut]
+        [Route("/schmettr/schmettr/1.0.0/user/{username}")]
+        [ValidateModelState]
+        [SwaggerOperation("UpdateUser")]
+        public virtual IActionResult UpdateUser([FromBody] Guid userId, [FromRoute][Required] string username)
+        {
+
+            try
+            {
+                var user = _userService.Update(userId, username);
+                return Ok(user);
+            }
+            catch (UsernameAlreadyExistsException e)
+            {
+                return Conflict(e);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -169,27 +207,5 @@ namespace Web.Controllers
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Updated user
-        /// </summary>
-        /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="body">Updated user object</param>
-        /// <param name="username">name that need to be updated</param>
-        /// <response code="400">Invalid user supplied</response>
-        /// <response code="404">User not found</response>
-        [HttpPut]
-        [Route("/schmettr/schmettr/1.0.0/user/{username}")]
-        [ValidateModelState]
-        [SwaggerOperation("UpdateUser")]
-        public virtual IActionResult UpdateUser([FromBody]UserDto body, [FromRoute][Required]string username)
-        { 
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-
-            throw new NotImplementedException();
-        }
     }
 }

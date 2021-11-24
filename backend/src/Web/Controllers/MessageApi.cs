@@ -49,7 +49,7 @@ namespace Web.Controllers
         [Route("/schmettr/schmettr/1.0.0/messages")]
         [ValidateModelState]
         [SwaggerOperation("AddMessage")]
-        public virtual IActionResult AddMessage([FromBody]MessageDto body)
+        public virtual IActionResult AddMessage([FromBody]MessageCreateDto body)
         {
             try
             {
@@ -102,11 +102,11 @@ namespace Web.Controllers
         [ValidateModelState]
         [SwaggerOperation("FindMessagesByCategroies")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<MessageDto>), description: "successful operation")]
-        public virtual IActionResult FindMessagesByCategroies([FromQuery][Required]List<CategoryDto> category)
+        public virtual IActionResult FindMessagesByCategroies([FromQuery][Required]List<Guid> categoryIds)
         {
             try
             {
-                var messages = _messageService.GetByCategories(category);
+                var messages = _messageService.GetByCategories(categoryIds);
                 return Ok(messages);
             }
             catch (Exception e)

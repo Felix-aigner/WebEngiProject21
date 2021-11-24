@@ -9,15 +9,8 @@ namespace Domain.Dtos
     /// 
     /// </summary>
     [DataContract]
-    public class CategoryDto
+    public class CategoryCreateDto
     {
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [Required]
-        [DataMember(Name = "id")]
-        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name

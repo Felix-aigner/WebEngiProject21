@@ -28,7 +28,7 @@ namespace Persistence
             return _dbContext.Users.FirstOrDefault(u => u.Username == username);
         }
 
-        public User Create(UserDto userDto)
+        public User Create(UserCreateDto userDto)
         {
             var user = _mapper.Map<User>(userDto);
             _dbContext.Add(user);
@@ -36,9 +36,13 @@ namespace Persistence
             return user;
         }
 
-        public void Delete(UserDto userDto)
+        public void Update(User user)
         {
-            var user = _mapper.Map<User>(userDto);
+            _dbContext.SaveChanges();
+        }
+
+        public void Delete(User user)
+        {
             _dbContext.Remove(user);
             _dbContext.SaveChanges();
         }

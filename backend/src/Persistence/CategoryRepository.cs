@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Domain.Dtos;
@@ -18,7 +19,7 @@ namespace Persistence
             _mapper = mapper;
         }
 
-        public Category Create(CategoryDto categoryDto)
+        public Category Create(CategoryCreateDto categoryDto)
         {
             var category = _mapper.Map<Category>(categoryDto);
             var createdCategory = _dbContext.Categories.Add(category).Entity;
@@ -29,6 +30,11 @@ namespace Persistence
         public List<Category> GetAll()
         {
             return _dbContext.Categories.OrderBy(c => c.CreatedDate).ToList();
+        }
+
+        public List<Category> GetBy(List<Guid> categoryIds)
+        {
+            return _dbContext.Categories.Where(c => categoryIds.Contains(c.Id)).ToList();
         }
     }
 }

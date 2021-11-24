@@ -18,7 +18,7 @@ namespace Services
             _mapper = mapper;
         }
 
-        public CategoryDto Create(CategoryDto categoryDto)
+        public CategoryDto Create(CategoryCreateDto categoryDto)
         {
             var category = _categoryRepository.Create(categoryDto);
             return _mapper.Map<CategoryDto>(category);

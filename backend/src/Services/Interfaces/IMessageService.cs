@@ -6,10 +6,10 @@ namespace Services.Interfaces
 {
     public interface IMessageService
     {
-        MessageDto Create(MessageDto messageDto);
+        MessageDto Create(MessageCreateDto messageDto);
         void Delete(Guid id);
         List<MessageDto> GetAll();
-        List<MessageDto> GetByCategories(List<CategoryDto> categoriesDto);
+        List<MessageDto> GetByCategories(List<Guid> categoryIds);
         MessageDto GetBy(Guid id);
         //MessageDto AddComment(Guid messageId, CommentDto commentDto);
 

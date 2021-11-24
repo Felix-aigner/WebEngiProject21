@@ -22,6 +22,13 @@ namespace Domain.Dtos
     public class CommentDto
     {
         /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [Required]
+        [DataMember(Name = "id")]
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Gets or Sets Content
         /// </summary>
         [Required]
@@ -32,15 +39,15 @@ namespace Domain.Dtos
         /// Gets or Sets Owner
         /// </summary>
         [Required]
-        [DataMember(Name = "ownerId")]
-        public Guid OwnerId { get; set; }
+        [DataMember(Name = "owner")]
+        public UserDto Owner { get; set; }
 
         /// <summary>
-        /// Gets or Sets Owner
+        /// Gets or Sets Message
         /// </summary>
         [Required]
-        [DataMember(Name = "messageId")]
-        public Guid MessageId { get; set; }
+        [DataMember(Name = "message")]
+        public MessageDto Message { get; set; }
 
 
     }

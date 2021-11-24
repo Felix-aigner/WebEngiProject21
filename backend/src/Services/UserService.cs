@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
 using Persistence.Interfaces;
@@ -18,7 +19,7 @@ namespace Services
             _mapper = mapper;
         }
 
-        public UserDto Create(UserDto userDto)
+        public UserDto Create(UserCreateDto userDto)
         {
             var userNameAlreadyExists = _userRepository.UsernameAlreadyExists(userDto.Username);
             if (userNameAlreadyExists)
@@ -29,7 +30,7 @@ namespace Services
             return _mapper.Map<UserDto>(createdUser);
         }
 
-        public UserDto GetBy(string username)
+        public User GetBy(string username)
         {
             var user = _userRepository.GetBy(username);
 
@@ -38,14 +39,25 @@ namespace Services
                 throw new UserNotFoundException($"User with Username {username} not found");
             }
 
+            return user;
+        }
+
+        public UserDto Update(Guid userId, string username)
+        {
+            if (_userRepository.UsernameAlreadyExists(username))
+            {
+                throw new UsernameAlreadyExistsException($"Username {username} already exists");
+            }
+            var user = _userRepository.GetBy(userId);
+            user.Username = username;
+            _userRepository.Update(user);
             return _mapper.Map<UserDto>(user);
         }
 
         public void Delete(string username)
         {
             var userToDelete = GetBy(username);
-
-           // _userRepository.Delete(userToDelete);
+            _userRepository.Delete(userToDelete);
         }
     }
 }

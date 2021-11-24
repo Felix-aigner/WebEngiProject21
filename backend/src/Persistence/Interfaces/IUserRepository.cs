@@ -8,8 +8,9 @@ namespace Persistence.Interfaces
     {
         User GetBy(Guid id);
         User GetBy(string username);
-        User Create(UserDto userDto);
-        void Delete(UserDto userDto);
+        User Create(UserCreateDto userDto);
+        void Update(User user);
+        void Delete(User user);
         bool UsernameAlreadyExists(string username);
     }
 }

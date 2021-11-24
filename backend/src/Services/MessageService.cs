@@ -12,14 +12,16 @@ namespace Services
     public class MessageService : IMessageService
     {
         private readonly IMessageRepository _messageRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public MessageService(IMessageRepository messageRepository, IMapper mapper)
+        public MessageService(IMessageRepository messageRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             _messageRepository = messageRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
-        public MessageDto Create(MessageDto messageDto)
+        public MessageDto Create(MessageCreateDto messageDto)
         {
             var createdMessage = _messageRepository.Create(messageDto);
             return _mapper.Map<MessageDto>(createdMessage);
@@ -33,8 +35,8 @@ namespace Services
                 throw new MessageNotFoundException($"Message with id {id} was not found");
             }
 
-            var messageToDelete = _mapper.Map<MessageDto>(message);
-            _messageRepository.Delete(messageToDelete);
+            //var messageToDelete = _mapper.Map<MessageDto>(message);
+            _messageRepository.Delete(message);
         }
 
         public List<MessageDto> GetAll()
@@ -43,9 +45,9 @@ namespace Services
             return _mapper.Map<List<MessageDto>>(allMessages);
         }
 
-        public List<MessageDto> GetByCategories(List<CategoryDto> categoriesDto)
+        public List<MessageDto> GetByCategories(List<Guid> categoryIds)
         {
-            var messages= _messageRepository.GetByCategory(categoriesDto);
+            var messages= _messageRepository.GetByCategories(categoryIds);
             return _mapper.Map<List<MessageDto>>(messages);
         }
 

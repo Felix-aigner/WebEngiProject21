@@ -43,7 +43,7 @@ namespace Web.Controllers
         [Route("/schmettr/schmettr/1.0.0/categories/")]
         [ValidateModelState]
         [SwaggerOperation("AddCategory")]
-        public virtual IActionResult AddCategories([FromBody]CategoryDto body)
+        public virtual IActionResult AddCategories([FromBody]CategoryCreateDto body)
         {
             try
             {

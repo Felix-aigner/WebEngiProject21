@@ -9,16 +9,8 @@ namespace Domain.Dtos
     /// 
     /// </summary>
     [DataContract]
-    public class MessageDto
-    {
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [Required]
-        [DataMember(Name = "id")]
-        public Guid Id { get; set; }
-
+    public class MessageCreateDto
+    { 
         /// <summary>
         /// Gets or Sets Content
         /// </summary>
@@ -31,14 +23,14 @@ namespace Domain.Dtos
         /// Gets or Sets Owner
         /// </summary>
         [Required]
-        [DataMember(Name = "owner")]
-        public UserDto Owner { get; set; }
+        [DataMember(Name = "ownerId")]
+        public Guid OwnerId { get; set; }
 
 
         /// <summary>
         /// Gets or Sets Categories
         /// </summary>
-        [DataMember(Name = "categories")]
-        public List<CategoryDto> Categories { get; set; }
+        [DataMember(Name = "categoriesId")]
+        public List<Guid> CategoriesId { get; set; }
     }
 }
