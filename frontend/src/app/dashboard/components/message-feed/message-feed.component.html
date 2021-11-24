@@ -1,8 +1,25 @@
 <div class="row">
-  <h2>Messages</h2>
+  <div class="col-8">
+    <h2>Messages</h2>
+  </div>
+  <div class="col-4">
+    <form [formGroup]="filterForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Filter</mat-label>
+        <mat-select formControlName="selectedCategories" multiple>
+          <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
 </div>
 <div *ngFor="let msg of messages">
-  <app-message-card
-    [msg]="msg"
-  ></app-message-card>
+  <div class="mb-3">
+    <app-message-card
+      [msg]="msg"
+      (upVoteMsg)="upVoteMessage($event, msg)"
+      (downVoteMsg)="downVoteMessage($event, msg)"
+      (newComment)="addNewComment($event, msg)"
+    ></app-message-card>
+  </div>
 </div>

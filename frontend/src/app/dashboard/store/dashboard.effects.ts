@@ -1,7 +1,17 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {getMessages, postMessage, postMessageFailure, postMessageSuccess} from "./dashboard.actions";
-import {catchError, concatMap, map} from "rxjs/operators";
+import {
+  getCategories,
+  getCategoriesFailure,
+  getCategoriesSuccess,
+  getMessages,
+  getMessagesFailure,
+  getMessagesSuccess,
+  postMessage,
+  postMessageFailure,
+  postMessageSuccess
+} from "./dashboard.actions";
+import {catchError, concatMap, map, mergeMap} from "rxjs/operators";
 import {DashboardService} from "../service/dashboard.service";
 import {of} from "rxjs";
 
@@ -26,6 +36,30 @@ export class DashboardEffects {
       concatMap(() => [
           getMessages()
         ]
+      )
+    )
+  );
+
+  getMessages$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getMessages),
+      mergeMap(() =>
+        this.dashboardService.getMessages().pipe(
+          map((result) => getMessagesSuccess({result})),
+          catchError(() => of(getMessagesFailure()))
+        )
+      )
+    )
+  );
+
+  getCategories$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getCategories),
+      mergeMap(() =>
+        this.dashboardService.getCategories().pipe(
+          map((result) => getCategoriesSuccess({result})),
+          catchError(() => of(getCategoriesFailure()))
+        )
       )
     )
   );

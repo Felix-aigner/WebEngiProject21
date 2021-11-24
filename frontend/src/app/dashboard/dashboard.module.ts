@@ -13,6 +13,7 @@ import {dashboardFeatureKey, dashboardReducer} from "./store/dashboard.reducer";
 import {StoreModule} from "@ngrx/store";
 import {SharedModule} from "../shared/shared.module";
 import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {MatButtonModule} from "@angular/material/button";
     MatSelectModule,
     MatOptionModule,
     SharedModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ]
 })
 export class DashboardModule {

@@ -1,10 +1,13 @@
 import {MessageComment} from "./comment.model";
 import {Category} from "./category.model";
+import {VoteModel} from "./vote.model";
 
 export interface Message {
-  text: string,
-  comments: MessageComment[]
-  upvotes: number,
-  downvotes: number
+  id?: string
+  userId?: string
+  text: string
   categories: Category[]
+  comments: MessageComment[]
+  votes: VoteModel[]
+  createdAt?: string
 }
