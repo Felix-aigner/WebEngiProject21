@@ -9,17 +9,26 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
+import { SignupDialogComponent } from './components/signup-dialog/signup-dialog.component';
+import { AccountDialogComponent } from './components/account-dialog/account-dialog.component';
 import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
   declarations: [
     MessageCardComponent,
-    CommentaryDialogComponent
+    CommentaryDialogComponent,
+    LoginDialogComponent,
+    SignupDialogComponent,
+    AccountDialogComponent
   ],
   exports: [
     MessageCardComponent,
-    CommentaryDialogComponent
+    CommentaryDialogComponent,
+    LoginDialogComponent,
+    SignupDialogComponent,
+    AccountDialogComponent
   ],
   imports: [
     CommonModule,
