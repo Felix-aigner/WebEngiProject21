@@ -1,4 +1,13 @@
 <div class="dashboard-wrapper">
-  <app-create-message></app-create-message>
-  <app-message-feed></app-message-feed>
+  <app-create-message
+    (newMessage)="postNewMessage($event)"
+  ></app-create-message>
+  <ng-container *ngIf="categories$ | async as categories">
+    <app-message-feed
+      [filterForm]="filterForm"
+      [categories]="categories"
+      (voteForMessage)="dispatchNewVote($event)"
+      (addComment)="dispatchNewComment($event)"
+    ></app-message-feed>
+  </ng-container>
 </div>

@@ -22,16 +22,7 @@ export class CommentaryDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  downvote() {
-
+  submitNewComment() {
+    this.dialogRef.close(this.commentaryForm.value.text)
   }
-
-  upvote() {
-
-  }
-
-  addComment() {
-
-  }
-
 }

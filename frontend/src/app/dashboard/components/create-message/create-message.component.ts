@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {Category} from "../../../shared/models/category.model";
 import {Message} from "../../../shared/models/message.model";
@@ -9,6 +9,7 @@ import {Message} from "../../../shared/models/message.model";
   styleUrls: ['./create-message.component.scss']
 })
 export class CreateMessageComponent implements OnInit {
+  @Output() newMessage: EventEmitter<Message> = new EventEmitter<Message>()
 
   newMessageForm = this.fb.group({
     messageText: ['', [Validators.required]],
@@ -34,6 +35,6 @@ export class CreateMessageComponent implements OnInit {
       downvotes: 0,
       comments: []
     }
-
+    this.newMessage.emit(newMsg)
   }
 }

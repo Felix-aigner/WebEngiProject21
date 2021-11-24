@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Message} from "../../models/message.model";
 import {MatDialog} from "@angular/material/dialog";
 import {CommentaryDialogComponent} from "../commentary-dialog/commentary-dialog.component";
@@ -9,6 +9,9 @@ import {CommentaryDialogComponent} from "../commentary-dialog/commentary-dialog.
   styleUrls: ['./message-card.component.scss']
 })
 export class MessageCardComponent implements OnInit {
+  @Output() upVoteMsg: EventEmitter<number> = new EventEmitter<number>()
+  @Output() downVoteMsg: EventEmitter<number> = new EventEmitter<number>()
+  @Output() newComment: EventEmitter<string> = new EventEmitter<string>()
   @Input() msg!: Message
 
   constructor(private dialog: MatDialog) {
@@ -17,12 +20,12 @@ export class MessageCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  downvote() {
-
+  upvote() {
+    this.upVoteMsg.emit(2)
   }
 
-  upvote() {
-
+  downvote() {
+    this.downVoteMsg.emit(1)
   }
 
   openComments() {
@@ -30,6 +33,12 @@ export class MessageCardComponent implements OnInit {
       width: '350px',
       data: this.msg
     });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        this.newComment.emit(result)
+      }
+    })
+
   }
 
   getCategories() {

@@ -2,17 +2,17 @@
   <p>from: username</p>
   <p>{{msg.text}}</p>
   <div class="row d-flex justify-content-end">
-    <div class="col-4 row counter">
-      <button mat-button (click)="upvote()">
-        <mat-icon aria-hidden="false">thumb_up</mat-icon>
-        <span class="m-1">{{msg.upvotes}}</span>
-      </button>
+    <div class="col-2 row counter">
+      <mat-icon aria-hidden="false">thumb_up</mat-icon>
     </div>
-    <div class="col-4 row counter">
-      <button mat-button (click)="downvote()">
-        <mat-icon aria-hidden="false">thumb_down</mat-icon>
-        <span class="m-1">{{msg.downvotes}}</span>
-      </button>
+    <div class="col-1">
+      <span class="m-1">{{msg.upvotes}}</span>
+    </div>
+    <div class="col-2 row counter">
+      <mat-icon aria-hidden="false">thumb_down</mat-icon>
+    </div>
+    <div class="col-1">
+      <span class="m-1">{{msg.downvotes}}</span>
     </div>
   </div>
 </div>
@@ -20,7 +20,10 @@
 <h3>Comments</h3>
 <div *ngIf="msg.comments.length >= 1; else noComments">
   <div *ngFor="let comment of msg.comments">
-    comment
+    <mat-card class="mt-1">
+      <p>{{comment.text}}</p>
+    </mat-card>
+
   </div>
 </div>
 <ng-template #noComments>
@@ -31,9 +34,14 @@
 
 <div class="row">
   <form [formGroup]="commentaryForm">
-    <mat-form-field class="full-width" appearance="fill">
+    <mat-form-field class="full-width col-12" appearance="fill">
       <mat-label>Write your comment</mat-label>
       <textarea formControlName="text" matInput placeholder=""></textarea>
     </mat-form-field>
+    <div class="col-4 mt-2">
+      <button class="full-width" [disabled]="!commentaryForm.valid" (click)="submitNewComment()" mat-raised-button
+              color="primary">Comment
+      </button>
+    </div>
   </form>
 </div>
