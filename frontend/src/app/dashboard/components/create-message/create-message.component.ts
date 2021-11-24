@@ -17,8 +17,8 @@ export class CreateMessageComponent implements OnInit {
   });
 
   public categories: Category[] = [
-    {name: 'first cat'},
-    {name: 'second cat'}
+    {id: "0", name: 'first cat'},
+    {id: "0", name: 'second cat'}
   ]
 
   constructor(private fb: FormBuilder) {
@@ -31,8 +31,7 @@ export class CreateMessageComponent implements OnInit {
     const newMsg: Message = {
       text: this.newMessageForm.controls['messageText'].value,
       categories: this.newMessageForm.controls['categories'].value,
-      upvotes: 0,
-      downvotes: 0,
+      votes: [],
       comments: []
     }
     this.newMessage.emit(newMsg)

@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
   }
 
   dispatchNewVote(msg: Message) {
-    console.log(`downvotes: ${msg.downvotes}, upvotes: ${msg.upvotes}`)
+    console.log(`votes: ${msg.votes}`)
     // send new vote to backend
     //reload msges
   }

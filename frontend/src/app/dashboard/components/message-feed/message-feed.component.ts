@@ -17,32 +17,29 @@ export class MessageFeedComponent implements OnInit {
     {
       text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
       comments: [],
-      upvotes: 3,
-      downvotes: 2,
+      votes: [],
       categories: [
-        {name: 'politics'},
-        {name: 'climate'},
-        {name: 'personal affairs'}
+        {id: "0", name: 'politics'},
+        {id: "0", name: 'climate'},
+        {id: "0", name: 'personal affairs'}
       ]
     }, {
       text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
       comments: [],
-      upvotes: 3,
-      downvotes: 2,
+      votes: [],
       categories: [
-        {name: 'politics'},
-        {name: 'climate'},
-        {name: 'personal affairs'}
+        {id: "0", name: 'politics'},
+        {id: "0", name: 'climate'},
+        {id: "0", name: 'personal affairs'}
       ]
     }, {
       text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
       comments: [],
-      upvotes: 3,
-      downvotes: 2,
+      votes: [],
       categories: [
-        {name: 'politics'},
-        {name: 'climate'},
-        {name: 'personal affairs'}
+        {id: "0", name: 'politics'},
+        {id: "0", name: 'climate'},
+        {id: "0", name: 'personal affairs'}
       ]
     },
   ]
@@ -58,12 +55,12 @@ export class MessageFeedComponent implements OnInit {
   }
 
   upVoteMessage(event: number, msg: Message) {
-    msg.upvotes += 1;
+    // msg.upvotes += 1;
     this.voteForMessage.emit(msg)
   }
 
   downVoteMessage(event: number, msg: Message) {
-    msg.downvotes += 1;
+    // msg.downvotes += 1;
     this.voteForMessage.emit(msg)
   }
 
