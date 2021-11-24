@@ -20,7 +20,7 @@ namespace Data.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Message
+    public class Message
     { 
         /// <summary>
         /// Gets or Sets Id
@@ -39,7 +39,6 @@ namespace Data.Models
         /// <summary>
         /// Gets or Sets Categories
         /// </summary>
-
         [DataMember(Name="categories")]
         public List<Category> Categories { get; set; }
 
@@ -53,9 +52,11 @@ namespace Data.Models
         /// <summary>
         /// Gets or Sets Comments
         /// </summary>
-
         [DataMember(Name="comments")]
         public List<Comment> Comments { get; set; }
+
+        [DataMember(Name = "createdon")]
+        public DateTime CreatedOn { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

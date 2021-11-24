@@ -15,6 +15,8 @@ using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Services.Exceptions;
+using Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using Web.Attributes;
 using Web.Security;
@@ -26,7 +28,18 @@ namespace Web.Controllers
     /// </summary>
     [ApiController]
     public class MessageApiController : ControllerBase
-    { 
+    {
+        private readonly IMessageService _messageService;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageService"></param>
+        public MessageApiController(IMessageService messageService)
+        {
+            _messageService = messageService;
+        }
+
         /// <summary>
         /// Add a new message
         /// </summary>
@@ -37,11 +50,18 @@ namespace Web.Controllers
         [ValidateModelState]
         [SwaggerOperation("AddMessage")]
         public virtual IActionResult AddMessage([FromBody]Message body)
-        { 
+        {
             //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(405);
-
-            throw new NotImplementedException();
+            try
+            {
+                var message = _messageService.Create(body);
+                return Ok(message);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
 
         /// <summary>
@@ -55,15 +75,21 @@ namespace Web.Controllers
         [Route("/schmettr/schmettr/1.0.0/message/{messageId}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteMessage")]
-        public virtual IActionResult DeleteMessage([FromRoute][Required]long? messageId, [FromHeader]string apiKey)
-        { 
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-
-            throw new NotImplementedException();
+        public virtual IActionResult DeleteMessage([FromRoute][Required]Guid messageId, [FromHeader]string apiKey)
+        {
+            try
+            {
+                _messageService.Delete(messageId);
+                return Ok();
+            }
+            catch (MessageNotFoundException e)
+            {
+                return NotFound(e);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
 
         /// <summary>
@@ -79,12 +105,17 @@ namespace Web.Controllers
         [SwaggerOperation("FindMessagesByCategroies")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Message>), description: "successful operation")]
         public virtual IActionResult FindMessagesByCategroies([FromQuery][Required()]List<Category> category)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<Message>));
+        {
+            try
+            {
+                var messages = _messageService.GetByCategories(category);
+                return Ok(messages);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
 
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
             string exampleJson = null;
             exampleJson = "[ {\n  \"owner\" : {\n    \"password\" : \"password\",\n    \"id\" : 1,\n    \"email\" : \"email\",\n    \"username\" : \"username\"\n  },\n  \"comments\" : [ {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  }, {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  } ],\n  \"id\" : 0,\n  \"categories\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 6\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 6\n  } ],\n  \"content\" : \"content\"\n}, {\n  \"owner\" : {\n    \"password\" : \"password\",\n    \"id\" : 1,\n    \"email\" : \"email\",\n    \"username\" : \"username\"\n  },\n  \"comments\" : [ {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  }, {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  } ],\n  \"id\" : 0,\n  \"categories\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 6\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 6\n  } ],\n  \"content\" : \"content\"\n} ]";
             
@@ -108,16 +139,22 @@ namespace Web.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetMessageById")]
         [SwaggerResponse(statusCode: 200, type: typeof(Message), description: "successful operation")]
-        public virtual IActionResult GetMessageById([FromRoute][Required]long? messageId)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Message));
+        public virtual IActionResult GetMessageById([FromRoute][Required]Guid messageId)
+        {
+            try
+            {
+                var message = _messageService.GetBy(messageId);
+                return Ok(message);
+            }
+            catch (MessageNotFoundException e)
+            {
+                return NotFound(e);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
 
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
             string exampleJson = null;
             exampleJson = "{\n  \"owner\" : {\n    \"password\" : \"password\",\n    \"id\" : 1,\n    \"email\" : \"email\",\n    \"username\" : \"username\"\n  },\n  \"comments\" : [ {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  }, {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  } ],\n  \"id\" : 0,\n  \"categories\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 6\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 6\n  } ],\n  \"content\" : \"content\"\n}";
             
@@ -136,11 +173,16 @@ namespace Web.Controllers
         [ValidateModelState]
         [SwaggerOperation("GetMessages")]
         public virtual IActionResult GetMessages()
-        { 
-            //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(405);
-
-            throw new NotImplementedException();
+        {
+            try
+            {
+                var messages = _messageService.GetAll();
+                return Ok(messages);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
 
     }

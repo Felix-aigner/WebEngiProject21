@@ -77,7 +77,10 @@ namespace Web
                     .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(ApiKeyAuthenticationHandler.SchemeName, null);
             
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IMessageService, MessageService>();
+
 
             services
                 .AddSwaggerGen(c =>

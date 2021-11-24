@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
@@ -32,24 +33,27 @@ namespace Data.Models
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
-        [Required]
+        //[Required]
         [DataMember(Name="username")]
         public string Username { get; set; }
 
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
-        [Required]
+        //[Required]
         [DataMember(Name="email")]
         public string Email { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
-        [Required]
+        //[Required]
         [DataMember(Name="password")]
         public string Password { get; set; }
 
+
+        [DataMember(Name = "messages")]
+        public List<Message> Messages{ get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

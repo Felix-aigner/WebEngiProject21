@@ -16,33 +16,32 @@ namespace Persistence
             _dbContext = dbContext;
         }
 
-        public User GetUser(Guid id)
+        public User GetBy(Guid id)
         {
-            return _dbContext.Users.Single(u => u.Id == id);
+            return _dbContext.Users.SingleOrDefault(u => u.Id == id);
         }
 
-        public User GetUser(string username)
+        public User GetBy(string username)
         {
-            var bla = _dbContext.Users.FirstOrDefault(u => u.Username == username);
-            return bla;
+            return _dbContext.Users.FirstOrDefault(u => u.Username == username);
         }
 
-        public User CreateUser(User user)
+        public User Create(User user)
         {
             var createdUser = _dbContext.Add(user).Entity;
             _dbContext.SaveChanges();
             return createdUser;
         }
 
-        public void DeleteUser(User user)
+        public void Delete(User user)
         {
-            _dbContext.Users.Remove(user);
+            _dbContext.Remove(user);
             _dbContext.SaveChanges();
         }
 
         public bool UsernameAlreadyExists(string username)
         {
-            return GetUser(username) != null;
+            return GetBy(username) != null;
         }
     }
 }

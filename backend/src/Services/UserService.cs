@@ -17,26 +17,33 @@ namespace Services
             _userRepository = userRepository;
         }
 
-        public User CreateUser(User user)
+        public User Create(User user)
         {
             var userNameAlreadyExists = _userRepository.UsernameAlreadyExists(user.Username);
             if (!userNameAlreadyExists)
             {
-               return _userRepository.CreateUser(user);
+               return _userRepository.Create(user);
             }
             throw new UsernameAlreadyExistsException($"Username {user.Username} already exists");
         }
 
-        public void DeleteUser(string username)
+        public User GetBy(string username)
         {
-            var userToDelete = _userRepository.GetUser(username);
-            
-            if (userToDelete == null)
+            var user = _userRepository.GetBy(username);
+
+            if (user == null)
             {
                 throw new UserNotFoundException($"User with Username {username} not found");
             }
 
-            _userRepository.DeleteUser(userToDelete);
+            return user;
+        }
+
+        public void Delete(string username)
+        {
+            var userToDelete = GetBy(username);
+
+            _userRepository.Delete(userToDelete);
         }
     }
 }

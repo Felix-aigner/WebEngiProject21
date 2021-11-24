@@ -56,7 +56,7 @@ namespace Web.Controllers
         {
             try
             {
-                var user = _userService.CreateUser(body);
+                var user = _userService.Create(body);
                 return Ok(user);
             }
             catch (UsernameAlreadyExistsException e)
@@ -85,7 +85,7 @@ namespace Web.Controllers
         {
             try
             {
-                _userService.DeleteUser(username);
+                _userService.Delete(username);
                 return Ok();
             }
             catch (UserNotFoundException e)

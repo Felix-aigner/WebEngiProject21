@@ -5,9 +5,8 @@ namespace Services.Interfaces
 {
     public interface IUserService
     {
-        User CreateUser(User user);
-
-        void DeleteUser(string username);
-
+        User Create(User user);
+        User GetBy(string username);
+        void Delete(string username);
     }
 }

@@ -5,10 +5,10 @@ namespace Persistence.Interfaces
 {
     public interface IUserRepository
     {
-        User GetUser(Guid id);
-        User GetUser(string username);
-        User CreateUser(User user);
-        void DeleteUser(User user);
+        User GetBy(Guid id);
+        User GetBy(string username);
+        User Create(User user);
+        void Delete(User user);
         bool UsernameAlreadyExists(string username);
     }
 }

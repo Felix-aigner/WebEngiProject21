@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Data.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Category
+    public class Category
     { 
         /// <summary>
         /// Gets or Sets Id
@@ -34,6 +35,7 @@ namespace Data.Models
         [Required]
         [DataMember(Name="name")]
         public string Name { get; set; }
+
 
         /// <summary>
         /// Returns the string presentation of the object
