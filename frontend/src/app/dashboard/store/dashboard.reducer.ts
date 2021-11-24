@@ -7,7 +7,7 @@ export const dashboardFeatureKey = 'dashboard';
 
 export interface DashboardState {
   messages: Message[];
-  categories: Category[]
+  categories: Category[];
 }
 
 export const initialState: DashboardState = {

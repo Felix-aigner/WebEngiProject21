@@ -14,6 +14,9 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from '@angular/material/dialog';
 import {StoreModule} from '@ngrx/store';
+import {reducer} from "./store/core.reducer";
+import {EffectsModule} from "@ngrx/effects";
+import {CoreEffects} from "./store/core.effects";
 
 // import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 
@@ -27,7 +30,8 @@ import {StoreModule} from '@ngrx/store';
   imports: [
     CommonModule,
     CoreRoutingModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot({core: reducer}),
+    EffectsModule.forRoot([CoreEffects]),
     RouterModule,
     MatToolbarModule,
     MatIconModule,
