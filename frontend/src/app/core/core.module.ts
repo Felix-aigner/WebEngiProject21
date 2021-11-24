@@ -13,6 +13,8 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import { MatDialogModule } from '@angular/material/dialog';
+import { StoreModule } from '@ngrx/store';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 
 
 @NgModule({
@@ -24,6 +26,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     CoreRoutingModule,
+    StoreModule.forRoot({}),
     RouterModule,
     MatToolbarModule,
     MatIconModule,
@@ -32,7 +35,25 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTabsModule,
     MatCardModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    SocialLoginModule
+  ],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              // replace this with your google client id			
+              '708313847097-qqhkk449k8ut39q0uf0290rhvgm4cthh.apps.googleusercontent.com'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig
+    },
   ]
 })
 export class CoreModule {

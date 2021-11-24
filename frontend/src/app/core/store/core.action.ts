@@ -6,7 +6,7 @@ export const getUser = createAction('[Core] Get User');
 export const getUserSuccess = createAction('[Core] Get User Success', props<{ result: User }>());
 export const getUserFailure = createAction('[Core] Get User Failure');
 
-export const postLogin = createAction('[Core] Post Login', props<{ loginCredentials: LoginCredential }>);
+export const postLogin = createAction('[Core] Post Login', props<{ loginCredentials: LoginCredential }>());
 export const postLoginSuccess = createAction('[Core] Post Login Success', props<{ accessToken: string, refreshToken: string }>());
 export const postLoginFailure = createAction('[Core] Post Login Failure');
 

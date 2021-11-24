@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'app-login-dialog',
@@ -9,10 +10,20 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class LoginDialogComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<LoginDialogComponent>) { }
+    public dialogRef: MatDialogRef<LoginDialogComponent>,
+    private socialAuthService: SocialAuthService 
+  ) { }
 
 
   ngOnInit(): void {
+  }
+
+  loginWithSchmettr() {
+
+  }
+
+  loginWithGoogleAuth() {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(x => console.log(x))
   }
 
 }

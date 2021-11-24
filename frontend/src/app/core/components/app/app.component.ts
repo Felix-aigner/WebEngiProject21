@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  login(){
   }
 
 }
