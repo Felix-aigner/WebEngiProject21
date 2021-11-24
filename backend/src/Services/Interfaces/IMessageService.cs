@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Data.Models;
+using Domain.Dtos;
 
 namespace Services.Interfaces
 {
     public interface IMessageService
     {
-        Message Create(Message message);
+        MessageDto Create(MessageDto messageDto);
         void Delete(Guid id);
-        List<Message> GetAll();
-        List<Message> GetByCategories(List<Category> categories);
-        Message GetBy(Guid id);
+        List<MessageDto> GetAll();
+        List<MessageDto> GetByCategories(List<CategoryDto> categoriesDto);
+        MessageDto GetBy(Guid id);
+        //MessageDto AddComment(Guid messageId, CommentDto commentDto);
 
     }
 }

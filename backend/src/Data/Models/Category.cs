@@ -37,6 +37,7 @@ namespace Data.Models
         public string Name { get; set; }
 
 
+        public List<Message> Messages { get; set; }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

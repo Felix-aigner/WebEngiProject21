@@ -1,5 +1,6 @@
 ﻿using System;
-using Data.Models;
+using Domain.Dtos;
+using Domain.Entities;
 
 namespace Persistence.Interfaces
 {
@@ -7,8 +8,8 @@ namespace Persistence.Interfaces
     {
         User GetBy(Guid id);
         User GetBy(string username);
-        User Create(User user);
-        void Delete(User user);
+        User Create(UserDto userDto);
+        void Delete(UserDto userDto);
         bool UsernameAlreadyExists(string username);
     }
 }

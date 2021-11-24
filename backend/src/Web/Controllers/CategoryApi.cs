@@ -12,6 +12,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Persistence.Interfaces;
 using Services.Exceptions;
 using Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -23,35 +24,53 @@ namespace Web.Controllers
     /// 
     /// </summary>
     [ApiController]
-    public class CommentApiController : ControllerBase
+    public class CategoryApi : ControllerBase
     {
-        private readonly IMessageService _messageService;
+        private readonly ICategoryService _categoryService;
 
-        public CommentApiController(IMessageService messageService)
+        public CategoryApi(ICategoryService categoryService)
         {
-            _messageService = messageService;
+            _categoryService = categoryService;
         }
+
         /// <summary>
-        /// Add a new comment
+        /// Add a new category
         /// </summary>
         /// <param name="body">Comment object that needs to be added to the message</param>
         /// <param name="messageId">ID of message to return</param>
         /// <response code="405">Invalid input</response>
         [HttpPost]
-        [Route("/schmettr/schmettr/1.0.0/message/addComment{messageId}")]
+        [Route("/schmettr/schmettr/1.0.0/categories/")]
         [ValidateModelState]
-        [SwaggerOperation("AddComment")]
-        public virtual IActionResult AddComment([FromBody]CommentDto body, [FromRoute][Required]Guid messageId)
+        [SwaggerOperation("AddCategory")]
+        public virtual IActionResult AddCategories([FromBody]CategoryDto body)
         {
             try
             {
-                //var message = _messageService.AddComment(messageId, body);
-                //return Ok(message);
-                return Ok();
+                var categoryDto = _categoryService.Create(body);
+                return Ok(categoryDto);
             }
-            catch (MessageNotFoundException e)
+            catch (Exception e)
             {
-                return NotFound(e);
+                return Problem(e.Message);
+            }
+        }
+
+        
+        /// <summary>
+        /// Get all Categories
+        /// </summary>
+        /// <response code="405">Invalid input</response>
+        [HttpGet]
+        [Route("/schmettr/schmettr/1.0.0/categories")]
+        [ValidateModelState]
+        [SwaggerOperation("GetCategories")]
+        public virtual IActionResult GetCategories()
+        {
+            try
+            {
+                var categoriesDto = _categoryService.GetAll();
+                return Ok(categoriesDto);
             }
             catch (Exception e)
             {

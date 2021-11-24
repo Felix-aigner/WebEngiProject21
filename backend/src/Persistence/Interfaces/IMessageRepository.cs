@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Data.Models;
+using Domain.Dtos;
+using Domain.Entities;
 
 namespace Persistence.Interfaces
 {
     public interface IMessageRepository
     {
-        Message Create(Message message);
-        void Delete(Message message);
+        Message Create(MessageDto messageDto);
+        void Delete(MessageDto messageDto);
         Message GetBy(Guid id);
         List<Message> GetAll();
-        List<Message> GetByCategory(List<Category> categories);
+        List<Message> GetByCategory(List<CategoryDto> categoriesDto);
+        //Message AddComment(MessageDto messageDto, CommentDto commentDto);
     }
 }

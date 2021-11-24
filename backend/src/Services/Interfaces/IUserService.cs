@@ -1,12 +1,12 @@
-﻿using System.Net;
-using Data.Models;
+﻿using Domain.Dtos;
+using Domain.Entities;
 
 namespace Services.Interfaces
 {
     public interface IUserService
     {
-        User Create(User user);
-        User GetBy(string username);
+        UserDto Create(UserDto userDto);
+        UserDto GetBy(string username);
         void Delete(string username);
     }
 }

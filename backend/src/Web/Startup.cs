@@ -10,7 +10,6 @@
 
 using System;
 using System.IO;
-using Data.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -78,9 +77,12 @@ namespace Web
             
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMessageService, MessageService>();
+            services.AddTransient<ICategoryService, CategoryService>();
 
+            services.AddAutoMapper(typeof(Startup));
 
             services
                 .AddSwaggerGen(c =>

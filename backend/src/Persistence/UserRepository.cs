@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Data.Models;
+using AutoMapper;
+using Domain.Dtos;
+using Domain.Entities;
 using Persistence.Interfaces;
 
 namespace Persistence
@@ -10,10 +10,12 @@ namespace Persistence
     public class UserRepository : IUserRepository
     {
         private readonly DatabaseContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public UserRepository(DatabaseContext dbContext)
+        public UserRepository(DatabaseContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public User GetBy(Guid id)
@@ -26,15 +28,17 @@ namespace Persistence
             return _dbContext.Users.FirstOrDefault(u => u.Username == username);
         }
 
-        public User Create(User user)
+        public User Create(UserDto userDto)
         {
-            var createdUser = _dbContext.Add(user).Entity;
+            var user = _mapper.Map<User>(userDto);
+            _dbContext.Add(user);
             _dbContext.SaveChanges();
-            return createdUser;
+            return user;
         }
 
-        public void Delete(User user)
+        public void Delete(UserDto userDto)
         {
+            var user = _mapper.Map<User>(userDto);
             _dbContext.Remove(user);
             _dbContext.SaveChanges();
         }

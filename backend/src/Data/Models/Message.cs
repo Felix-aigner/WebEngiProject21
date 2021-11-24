@@ -40,20 +40,20 @@ namespace Data.Models
         /// Gets or Sets Categories
         /// </summary>
         [DataMember(Name="categories")]
-        public List<Category> Categories { get; set; }
+        public virtual List<Category> Categories { get; set; }
 
         /// <summary>
         /// Gets or Sets Owner
         /// </summary>
         [Required]
         [DataMember(Name="owner")]
-        public User Owner { get; set; }
+        public virtual User Owner { get; set; }
 
         /// <summary>
         /// Gets or Sets Comments
         /// </summary>
         [DataMember(Name="comments")]
-        public List<Comment> Comments { get; set; }
+        public virtual List<Comment> Comments { get; set; }
 
         [DataMember(Name = "createdon")]
         public DateTime CreatedOn { get; set; }
