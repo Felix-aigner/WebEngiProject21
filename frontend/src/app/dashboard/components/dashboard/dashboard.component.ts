@@ -7,6 +7,7 @@ import {map} from "rxjs/operators";
 import {getCategories, getMessages} from "../../store/dashboard.actions";
 import {Message} from "../../../shared/models/message.model";
 import {selectCurrUser} from "../../../core/store/core.selectors";
+import {User} from "../../../shared/models/user.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -51,5 +52,24 @@ export class DashboardComponent implements OnInit {
 
   dispatchNewComment(msg: Message) {
     console.log(msg)
+  }
+
+  userLoggedIn(user: User | undefined | null) {
+    return !!user?.accessToken;
+
+  }
+
+  myMessages(messages: Message[], user: User | undefined | null) {
+    if (user?.userId) {
+      return messages.filter((message) => message.user?.userId == user.userId)
+    }
+    return []
+  }
+
+  likedMessages(messages: Message[], user: User | undefined | null) {
+    if (user?.userId) {
+      return messages.filter((messages) => messages.votes.filter((vote) => vote.userId == user.userId && vote.voteFlag == "up").length >= 1)
+    }
+    return []
   }
 }

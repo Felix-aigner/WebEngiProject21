@@ -30,6 +30,8 @@ export const initialState: DashboardState = {
         {userId: "something", voteFlag: "down"},
       ],
       categories: [
+        {id: "0", name: 'first cat'},
+        {id: "0", name: 'second cat'},
         {id: "0", name: 'politics'},
         {id: "0", name: 'climate'},
         {id: "0", name: 'personal affairs'}
@@ -41,6 +43,7 @@ export const initialState: DashboardState = {
       comments: [],
       votes: [],
       categories: [
+        {id: "0", name: 'first cat'},
         {id: "0", name: 'politics'},
         {id: "0", name: 'climate'},
       ],

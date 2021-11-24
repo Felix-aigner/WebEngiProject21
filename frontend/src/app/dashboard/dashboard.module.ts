@@ -17,6 +17,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {EffectsModule} from "@ngrx/effects";
 import {DashboardEffects} from "./store/dashboard.effects";
 import {DashboardService} from "./service/dashboard.service";
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {DashboardService} from "./service/dashboard.service";
     MatOptionModule,
     SharedModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule
   ],
   providers: [
     DashboardService

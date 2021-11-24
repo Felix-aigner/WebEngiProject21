@@ -19,6 +19,7 @@ export class MessageFeedComponent implements OnInit {
   @Input() categories!: Category[]
   @Input() filterForm!: FormGroup
   @Input() messages: Message[] = []
+  @Input() feedTag!: string;
 
   constructor(private store: Store<DashboardState>) {
   }

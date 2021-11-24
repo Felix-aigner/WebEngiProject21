@@ -1,26 +1,33 @@
-<div class="row">
-  <div class="col-8">
+<div class="row col-12 justify-content-center mt-2">
+  <div class="col-5">
     <h2>Messages</h2>
   </div>
-  <div class="col-4">
-    <form [formGroup]="filterForm">
-      <mat-form-field appearance="fill">
-        <mat-label>Filter</mat-label>
-        <mat-select formControlName="selectedCategories" multiple>
-          <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </form>
-  </div>
-</div>
-<div *ngFor="let msg of messages">
-  <div class="mb-3">
-    <app-message-card
-      [currUser]="currUser"
-      [msg]="msg"
-      (voteMsg)="voteMessage($event, msg)"
-      (patchVote)="patchVote($event, msg)"
-      (newComment)="addNewComment($event, msg)"
-    ></app-message-card>
-  </div>
+  <ng-container *ngIf="messages.length >= 1; else noMessages">
+    <div class="col-4">
+      <form [formGroup]="filterForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Filter</mat-label>
+          <mat-select formControlName="selectedCategories" multiple>
+            <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="col-12" *ngFor="let msg of messages">
+      <div class="mb-3">
+        <app-message-card
+          [currUser]="currUser"
+          [msg]="msg"
+          (voteMsg)="voteMessage($event, msg)"
+          (patchVote)="patchVote($event, msg)"
+          (newComment)="addNewComment($event, msg)"
+        ></app-message-card>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noMessages>
+    <div class="col-12">
+      <p>There are no Messages to be displayed</p>
+    </div>
+  </ng-template>
 </div>
