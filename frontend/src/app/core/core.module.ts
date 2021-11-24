@@ -17,6 +17,8 @@ import {StoreModule} from '@ngrx/store';
 import {reducer} from "./store/core.reducer";
 import {EffectsModule} from "@ngrx/effects";
 import {CoreEffects} from "./store/core.effects";
+import {HttpClientModule} from "@angular/common/http";
+import {CoreService} from "./services/core.service";
 
 // import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
 
@@ -29,8 +31,9 @@ import {CoreEffects} from "./store/core.effects";
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     CoreRoutingModule,
-    StoreModule.forRoot({core: reducer}),
+    StoreModule.forRoot({core: reducer}, {}),
     EffectsModule.forRoot([CoreEffects]),
     RouterModule,
     MatToolbarModule,
@@ -41,25 +44,10 @@ import {CoreEffects} from "./store/core.effects";
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
-    // SocialLoginModule
   ],
-  // providers: [
-  //   {
-  //     provide: 'SocialAuthServiceConfig',
-  //     useValue: {
-  //       autoLogin: false,
-  //       providers: [
-  //         {
-  //           id: GoogleLoginProvider.PROVIDER_ID,
-  //           provider: new GoogleLoginProvider(
-  //             // replace this with your google client id
-  //             '708313847097-qqhkk449k8ut39q0uf0290rhvgm4cthh.apps.googleusercontent.com'
-  //           )
-  //         }
-  //       ]
-  //     } as SocialAuthServiceConfig
-  //   },
-  // ]
+  providers: [
+    CoreService
+  ]
 })
 export class CoreModule {
 }

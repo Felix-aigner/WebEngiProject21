@@ -9,7 +9,9 @@
     </a>
   </div>
   <a mat-list-item (click)="openLogin()">Login</a>
-  <a mat-list-item (click)="logout()">Logout</a>
   <a mat-list-item (click)="openSignUp()">SignUp</a>
-  <a mat-list-item (click)="openAccount()">Account</a>
+  <ng-container *ngIf="currUser$ | async as currUser">
+    <a mat-list-item (click)="logout(currUser.refreshToken)">Logout</a>
+    <a mat-list-item (click)="openAccount()">Account</a>
+  </ng-container>
 </mat-nav-list>

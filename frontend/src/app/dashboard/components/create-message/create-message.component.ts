@@ -1,7 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {Category} from "../../../shared/models/category.model";
 import {Message} from "../../../shared/models/message.model";
+import {User} from "../../../shared/models/user.model";
 
 @Component({
   selector: 'app-create-message',
@@ -10,16 +11,13 @@ import {Message} from "../../../shared/models/message.model";
 })
 export class CreateMessageComponent implements OnInit {
   @Output() newMessage: EventEmitter<Message> = new EventEmitter<Message>()
+  @Input() currUser: User | undefined | null
+  @Input() categories!: Category[]
 
   newMessageForm = this.fb.group({
     messageText: ['', [Validators.required]],
     categories: ['', [Validators.required]],
   });
-
-  public categories: Category[] = [
-    {id: "0", name: 'first cat'},
-    {id: "0", name: 'second cat'}
-  ]
 
   constructor(private fb: FormBuilder) {
   }

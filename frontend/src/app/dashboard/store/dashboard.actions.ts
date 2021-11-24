@@ -16,6 +16,10 @@ export const postVote = createAction('[Dashboard] post Vote', props<{ vote: Vote
 export const postVoteSuccess = createAction('[Dashboard] post Vote Success')
 export const postVoteFailure = createAction('[Dashboard] post Vote Failure')
 
+export const patchVote = createAction('[Dashboard] patch Vote', props<{ vote: VoteModel, msgId: string }>())
+export const patchVoteSuccess = createAction('[Dashboard] patch Vote Success')
+export const patchVoteFailure = createAction('[Dashboard] patch Vote Failure')
+
 export const postComment = createAction('[Dashboard] post Comment', props<{ comment: Comment, msgId: string }>())
 export const postCommentSuccess = createAction('[Dashboard] post Comment Success')
 export const postCommentFailure = createAction('[Dashboard] post Comment Failure')

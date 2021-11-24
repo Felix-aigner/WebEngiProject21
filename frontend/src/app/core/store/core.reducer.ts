@@ -10,7 +10,12 @@ export interface CoreState {
 }
 
 export const initialState: CoreState = {
-  currUser: undefined,
+  currUser: {
+    userId: "yolo",
+    accessToken: "something",
+    refreshToken: "awdawd",
+    username: "yoho"
+  },
   users: []
 }
 

@@ -7,6 +7,9 @@ import {
   getMessages,
   getMessagesFailure,
   getMessagesSuccess,
+  patchVote,
+  patchVoteFailure,
+  patchVoteSuccess,
   postComment,
   postCommentFailure,
   postCommentSuccess,
@@ -73,6 +76,28 @@ export class DashboardEffects {
   postVoteSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(postVoteSuccess),
+      concatMap(() => [
+          getMessages()
+        ]
+      )
+    )
+  )
+
+  patchVote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(patchVote),
+      mergeMap((action) =>
+        this.dashboardService.patchVote(action.vote, action.msgId).pipe(
+          map(() => patchVoteSuccess()),
+          catchError(() => of(patchVoteFailure()))
+        )
+      )
+    )
+  );
+
+  patchVoteSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(patchVoteSuccess),
       concatMap(() => [
           getMessages()
         ]

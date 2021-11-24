@@ -24,6 +24,10 @@ export class DashboardService {
     return this.http.post(`api/messages/${msgId}/votes`, vote)
   }
 
+  patchVote(vote: VoteModel, msgId: string) {
+    return this.http.patch(`api/messages/${msgId}/votes`, vote)
+  }
+
   postComment(comment: Comment, msgId: string) {
     return this.http.post(`api/messages/${msgId}/comments`, comment)
   }
