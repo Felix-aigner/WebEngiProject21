@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Change Username</h2>
+<div class=" d-flex justify-content-center">
+  <div>
+    <form [formGroup]="usernameForm">
+      <mat-form-field>
+        <mat-label>New Username</mat-label>
+        <textarea matInput formControlName="username"></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="m-2">
+    <button mat-raised-button (click)="submitNewUsername()">Change</button>
+  </div>
+</div>

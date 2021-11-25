@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
+// import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,8 +10,6 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit {
   routes = [
     {title: 'Dashboard', path: '/dashboard'},
-    {title: 'Something', path: '/something'},
-    {title: 'Extras', path: '/extras'},
   ];
 
   constructor() {

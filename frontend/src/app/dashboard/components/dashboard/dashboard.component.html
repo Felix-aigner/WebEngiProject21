@@ -1,4 +1,45 @@
 <div class="dashboard-wrapper">
-  <app-create-message></app-create-message>
-  <app-message-feed></app-message-feed>
+  <ng-container *ngIf="categories$ | async as categories">
+    <app-create-message
+      [categories]="categories"
+      [currUser]="currUser$ | async"
+      (newMessage)="postNewMessage($event)"
+    ></app-create-message>
+    <ng-container class="row" *ngIf="messages$ | async as messages">
+      <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="All Messages">
+          <app-message-feed
+            [feedTag]="'all'"
+            [messages]="messages"
+            [currUser]="currUser$ | async"
+            [filterForm]="filterForm"
+            [categories]="categories"
+            (addComment)="dispatchNewComment($event)"
+          ></app-message-feed>
+        </mat-tab>
+        <mat-tab [disabled]="!userLoggedIn(currUser$ | async)" label="My Messages">
+          <app-message-feed
+            [feedTag]="'my'"
+            [messages]="myMessages(messages, currUser$ | async)"
+            [currUser]="currUser$ | async"
+            [filterForm]="filterForm"
+            [categories]="categories"
+            (addComment)="dispatchNewComment($event)"
+            (deleteMessageWithId)="deleteMessage($event)"
+          ></app-message-feed>
+        </mat-tab>
+        <mat-tab [disabled]="!userLoggedIn(currUser$ | async)" label="Liked Messages">
+          <app-message-feed
+            [feedTag]="'liked'"
+            [messages]="likedMessages(messages, currUser$ | async)"
+            [currUser]="currUser$ | async"
+            [filterForm]="filterForm"
+            [categories]="categories"
+            (addComment)="dispatchNewComment($event)"
+          ></app-message-feed>
+        </mat-tab>
+      </mat-tab-group>
+
+    </ng-container>
+  </ng-container>
 </div>

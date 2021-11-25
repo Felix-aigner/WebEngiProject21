@@ -1,3 +1,9 @@
+import {User} from "./user.model";
+
 export interface MessageComment {
-  text: string
+  id?: string
+  owner?: User
+  content: string
+  createdAt?: string
+  message?: string
 }

@@ -7,3 +7,8 @@ export const selectMessages = createSelector(
   selectDashboardState,
   (state: DashboardState) => state.messages
 )
+
+export const selectCategories = createSelector(
+  selectDashboardState,
+  (state: DashboardState) => state.categories
+)

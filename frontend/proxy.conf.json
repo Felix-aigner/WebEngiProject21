@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "http://localhost:8081/schmettr/schmettr/1.0.0/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": "true",
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

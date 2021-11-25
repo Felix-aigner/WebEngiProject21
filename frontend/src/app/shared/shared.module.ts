@@ -9,16 +9,30 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {MatDividerModule} from "@angular/material/divider";
+import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
+import {SignupDialogComponent} from "./components/signup-dialog/signup-dialog.component";
+import {AccountDialogComponent} from "./components/account-dialog/account-dialog.component";
+import {ConfirmationDialogComponent} from './components/confirmation-dialog/confirmation-dialog.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
   declarations: [
     MessageCardComponent,
-    CommentaryDialogComponent
+    CommentaryDialogComponent,
+    LoginDialogComponent,
+    SignupDialogComponent,
+    AccountDialogComponent,
+    ConfirmationDialogComponent
   ],
   exports: [
     MessageCardComponent,
-    CommentaryDialogComponent
+    CommentaryDialogComponent,
+    LoginDialogComponent,
+    SignupDialogComponent,
+    AccountDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -28,8 +42,10 @@ import {MatInputModule} from "@angular/material/input";
     MatDialogModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
-  ]
+    MatInputModule,
+    MatDividerModule,
+    MatTabsModule,
+  ],
 })
 export class SharedModule {
 }
