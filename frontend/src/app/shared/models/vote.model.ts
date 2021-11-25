@@ -1,4 +1,5 @@
 export interface VoteModel {
+  id?: string
   userId: string;
-  VoteFlag: string
+  voteFlag: string
 }

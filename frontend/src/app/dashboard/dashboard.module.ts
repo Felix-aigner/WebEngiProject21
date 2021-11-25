@@ -14,6 +14,10 @@ import {StoreModule} from "@ngrx/store";
 import {SharedModule} from "../shared/shared.module";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {EffectsModule} from "@ngrx/effects";
+import {DashboardEffects} from "./store/dashboard.effects";
+import {DashboardService} from "./service/dashboard.service";
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
@@ -26,6 +30,7 @@ import {MatIconModule} from "@angular/material/icon";
     CommonModule,
     DashboardRoutingModule,
     StoreModule.forFeature(dashboardFeatureKey, dashboardReducer),
+    EffectsModule.forFeature([DashboardEffects]),
     MatCardModule,
     MatInputModule,
     ReactiveFormsModule,
@@ -33,7 +38,11 @@ import {MatIconModule} from "@angular/material/icon";
     MatOptionModule,
     SharedModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTabsModule
+  ],
+  providers: [
+    DashboardService
   ]
 })
 export class DashboardModule {

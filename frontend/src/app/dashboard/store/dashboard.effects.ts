@@ -7,9 +7,18 @@ import {
   getMessages,
   getMessagesFailure,
   getMessagesSuccess,
+  patchVote,
+  patchVoteFailure,
+  patchVoteSuccess,
+  postComment,
+  postCommentFailure,
+  postCommentSuccess,
   postMessage,
   postMessageFailure,
-  postMessageSuccess
+  postMessageSuccess,
+  postVote,
+  postVoteFailure,
+  postVoteSuccess
 } from "./dashboard.actions";
 import {catchError, concatMap, map, mergeMap} from "rxjs/operators";
 import {DashboardService} from "../service/dashboard.service";
@@ -51,6 +60,72 @@ export class DashboardEffects {
       )
     )
   );
+
+  postVote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(postVote),
+      mergeMap((action) =>
+        this.dashboardService.postVote(action.vote, action.msgId).pipe(
+          map(() => postVoteSuccess()),
+          catchError(() => of(postVoteFailure()))
+        )
+      )
+    )
+  );
+
+  postVoteSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(postVoteSuccess),
+      concatMap(() => [
+          getMessages()
+        ]
+      )
+    )
+  )
+
+  patchVote$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(patchVote),
+      mergeMap((action) =>
+        this.dashboardService.patchVote(action.vote, action.msgId).pipe(
+          map(() => patchVoteSuccess()),
+          catchError(() => of(patchVoteFailure()))
+        )
+      )
+    )
+  );
+
+  patchVoteSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(patchVoteSuccess),
+      concatMap(() => [
+          getMessages()
+        ]
+      )
+    )
+  )
+
+  postComment$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(postComment),
+      mergeMap((action) =>
+        this.dashboardService.postComment(action.comment, action.msgId).pipe(
+          map(() => postCommentSuccess()),
+          catchError(() => of(postCommentFailure()))
+        )
+      )
+    )
+  );
+
+  postCommentSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(postCommentSuccess),
+      concatMap(() => [
+          getMessages()
+        ]
+      )
+    )
+  )
 
   getCategories$ = createEffect(() =>
     this.actions$.pipe(

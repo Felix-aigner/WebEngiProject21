@@ -6,7 +6,8 @@ import {selectCategories, selectMessages} from "../../store/dashboard.selectors"
 import {map} from "rxjs/operators";
 import {getCategories, getMessages} from "../../store/dashboard.actions";
 import {Message} from "../../../shared/models/message.model";
-import {Category} from "../../../shared/models/category.model";
+import {selectCurrUser} from "../../../core/store/core.selectors";
+import {User} from "../../../shared/models/user.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -15,25 +16,19 @@ import {Category} from "../../../shared/models/category.model";
 })
 export class DashboardComponent implements OnInit {
 
+  currUser$ = this.store.select(selectCurrUser)
+  categories$ = this.store.select(selectCategories)
+  messages$ = this.store.select(selectMessages).pipe(
+    map((messages) => {
+      //filter by categories
+      return messages
+    })
+  )
+
   filterForm = this.fb.group({
     selectedCategories: this.fb.control('')
   })
 
-  messages$ = this.store.select(selectMessages).pipe(
-    map((messages) => {
-        const selectedCats: Category[] | undefined = this.filterForm.value.selectedCategories
-        if (selectedCats == undefined) {
-          return messages
-        }
-        return messages.filter((message) => {
-          return selectedCats.some((category) =>
-            message.categories.includes(category)
-          );
-        })
-      }
-    ))
-
-  categories$ = this.store.select(selectCategories)
 
   constructor(private fb: FormBuilder, private store: Store<DashboardState>) {
   }
@@ -57,5 +52,24 @@ export class DashboardComponent implements OnInit {
 
   dispatchNewComment(msg: Message) {
     console.log(msg)
+  }
+
+  userLoggedIn(user: User | undefined | null) {
+    return !!user?.accessToken;
+
+  }
+
+  myMessages(messages: Message[], user: User | undefined | null) {
+    if (user?.userId) {
+      return messages.filter((message) => message.user?.userId == user.userId)
+    }
+    return []
+  }
+
+  likedMessages(messages: Message[], user: User | undefined | null) {
+    if (user?.userId) {
+      return messages.filter((messages) => messages.votes.filter((vote) => vote.userId == user.userId && vote.voteFlag == "up").length >= 1)
+    }
+    return []
   }
 }
