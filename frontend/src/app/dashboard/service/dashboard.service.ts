@@ -21,6 +21,10 @@ export class DashboardService {
     return this.http.post(`api/messages`, msg);
   }
 
+  deleteMessage(msgId: string) {
+    return this.http.delete(`api/messages/${msgId}`)
+  }
+
   postVote(vote: VoteModel, msgId: string) {
     return this.http.post(`api/messages/${msgId}/votes`, vote)
   }

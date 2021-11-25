@@ -4,7 +4,7 @@ import {Store} from "@ngrx/store";
 import {DashboardState} from "../../store/dashboard.reducer";
 import {selectCategories, selectMessages} from "../../store/dashboard.selectors";
 import {map} from "rxjs/operators";
-import {getCategories, getMessages, postMessage} from "../../store/dashboard.actions";
+import {deleteMessage, getCategories, getMessages, postMessage} from "../../store/dashboard.actions";
 import {Message} from "../../../shared/models/message.model";
 import {selectCurrUser} from "../../../core/store/core.selectors";
 import {User} from "../../../shared/models/user.model";
@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
     return []
   }
 
-  deleteMessage($event: string) {
-    /// TODO: delete message dispatch
+  deleteMessage(msgId: string) {
+    this.store.dispatch(deleteMessage({messageId: msgId}))
   }
 }

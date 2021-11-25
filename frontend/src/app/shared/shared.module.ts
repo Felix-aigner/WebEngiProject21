@@ -13,6 +13,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
 import {SignupDialogComponent} from "./components/signup-dialog/signup-dialog.component";
 import {AccountDialogComponent} from "./components/account-dialog/account-dialog.component";
+import {ConfirmationDialogComponent} from './components/confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -21,14 +22,16 @@ import {AccountDialogComponent} from "./components/account-dialog/account-dialog
     CommentaryDialogComponent,
     LoginDialogComponent,
     SignupDialogComponent,
-    AccountDialogComponent
+    AccountDialogComponent,
+    ConfirmationDialogComponent
   ],
   exports: [
     MessageCardComponent,
     CommentaryDialogComponent,
     LoginDialogComponent,
     SignupDialogComponent,
-    AccountDialogComponent
+    AccountDialogComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,

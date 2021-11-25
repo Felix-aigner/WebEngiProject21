@@ -4,6 +4,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {CommentaryDialogComponent} from "../commentary-dialog/commentary-dialog.component";
 import {User} from "../../models/user.model";
 import {VoteModel} from "../../models/vote.model";
+import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-message-card',
@@ -103,7 +104,15 @@ export class MessageCardComponent implements OnInit {
   }
 
   deleteMessage(id: string | undefined) {
-    if (id)
-      this.deleteMessageWithId.emit(id)
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: false
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && id) {
+        this.deleteMessageWithId.emit(id)
+      }
+    })
+
   }
 }
