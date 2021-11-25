@@ -14,8 +14,10 @@ export class MessageCardComponent implements OnInit {
   @Output() voteMsg: EventEmitter<VoteModel> = new EventEmitter<VoteModel>()
   @Output() patchVote: EventEmitter<VoteModel> = new EventEmitter<VoteModel>()
   @Output() newComment: EventEmitter<string> = new EventEmitter<string>()
+  @Output() deleteMessageWithId: EventEmitter<string> = new EventEmitter<string>()
   @Input() msg!: Message
   @Input() currUser: User | undefined | null
+  @Input() allowDelete: boolean = false
 
   constructor(private dialog: MatDialog) {
   }
@@ -45,37 +47,48 @@ export class MessageCardComponent implements OnInit {
   }
 
   downVoteAllowed(): boolean {
-    const currVotes = this.msg.votes.filter((vote) => (vote.userId == this.currUser?.userId))
-    if (currVotes.length !== 0) {
-      return currVotes[0].voteFlag == "up"
+    if (this.msg.votes) {
+      const currVotes = this.msg.votes.filter((vote) => (vote.userId == this.currUser?.id))
+      if (currVotes.length !== 0) {
+        return currVotes[0].voteFlag == "up"
+      }
     }
     return true
   }
 
   upVoteAllowed(): boolean {
-    const currVotes = this.msg.votes.filter((vote) => (vote.userId == this.currUser?.userId))
-    if (currVotes.length !== 0) {
-      return currVotes[0].voteFlag == "down"
+    if (this.msg.votes) {
+      const currVotes = this.msg.votes.filter((vote) => (vote.userId == this.currUser?.id))
+      if (currVotes.length !== 0) {
+        return currVotes[0].voteFlag == "down"
+      }
     }
     return true
   }
 
   getDownVotes(): number {
-    return this.msg.votes.filter(x => x.voteFlag == "down").length
+    if (this.msg.votes)
+      return this.msg.votes.filter(x => x.voteFlag == "down").length
+    return 0
   }
 
   getUpVotes(): number {
-    return this.msg.votes.filter(x => x.voteFlag == "up").length
+    if (this.msg.votes)
+      return this.msg.votes.filter(x => x.voteFlag == "up").length
+    return 0
   }
 
   vote(voteValue: string) {
-    const currVoting = this.msg.votes.filter((vote) => vote.userId == this.currUser?.userId)[0]
+    if (!this.msg.votes) {
+      this.msg.votes = []
+    }
+    const currVoting = this.msg.votes.filter((vote) => vote.userId == this.currUser?.id)[0]
     if (currVoting) {
       let newVoting: VoteModel = {...currVoting}
       newVoting.voteFlag = voteValue
       this.patchVote.emit(newVoting)
     } else {
-      const id = this.currUser?.userId
+      const id = this.currUser?.id
       if (id) {
         this.voteMsg.emit({userId: id, voteFlag: voteValue})
       }
@@ -87,5 +100,10 @@ export class MessageCardComponent implements OnInit {
       return true
     }
     return false
+  }
+
+  deleteMessage(id: string | undefined) {
+    if (id)
+      this.deleteMessageWithId.emit(id)
   }
 }

@@ -15,6 +15,7 @@ import {patchVote, postVote} from "../../store/dashboard.actions";
 })
 export class MessageFeedComponent implements OnInit {
   @Output() addComment: EventEmitter<Message> = new EventEmitter<Message>()
+  @Output() deleteMessageWithId: EventEmitter<string> = new EventEmitter<string>()
   @Input() currUser: User | undefined | null
   @Input() categories!: Category[]
   @Input() filterForm!: FormGroup
@@ -33,21 +34,25 @@ export class MessageFeedComponent implements OnInit {
 
 
   addNewComment(comment: string, msg: Message) {
+    if (!msg.comments)
+      msg.comments = []
     msg.comments.push({text: comment})
     this.addComment.emit(msg)
   }
 
   voteMessage(vote: VoteModel, msg: Message) {
-    console.log(msg.id)
     if (msg.id) {
       this.store.dispatch(postVote({vote, msgId: msg.id}))
     }
   }
 
   patchVote(vote: VoteModel, msg: Message) {
-    console.log(msg.id)
     if (msg.id) {
       this.store.dispatch(patchVote({vote, msgId: msg.id}))
     }
+  }
+
+  deleteMessage(msgId: string) {
+    this.deleteMessageWithId.emit(msgId)
   }
 }

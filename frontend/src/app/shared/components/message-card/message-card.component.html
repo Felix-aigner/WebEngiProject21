@@ -1,13 +1,13 @@
 <mat-card>
   <mat-card-header>
     <div class="row">
-      <h5>from: {{(msg.user) ? msg.user.username : 'anonymous'}}</h5>
+      <h5>from: {{(msg.owner) ? msg.owner.username : 'anonymous'}}</h5>
     </div>
   </mat-card-header>
   <mat-card-content>
     <div class="row">
       <div class="col-12 mainText">
-        <p>{{msg.text}}</p>
+        <p>{{msg.content}}</p>
       </div>
 
       <div class="col-12">
@@ -23,7 +23,7 @@
                 [disabled]="!userAllowed()"
                 (click)="openComments()">
           <mat-icon aria-hidden="false">chat_bubble</mat-icon>
-          <span class="m-1">{{msg.comments.length}}</span>
+          <span class="m-1">{{msg.comments?.length}}</span>
         </button>
       </div>
       <div class="col-2 row counter">
@@ -47,7 +47,12 @@
   </mat-card-content>
   <mat-card-footer>
     <div class="d-flex justify-content-center">
-      <button mat-button [disabled]="!userAllowed()" (click)="openComments()">Write a comment</button>
+      <div>
+        <button mat-button [disabled]="!userAllowed()" (click)="openComments()">Write a comment</button>
+      </div>
+    </div>
+    <div *ngIf="allowDelete" class="m-1 d-flex justify-content-end">
+      <button (click)="deleteMessage(msg.id)" mat-button mat-raised-button class="mat-warn">Delete</button>
     </div>
   </mat-card-footer>
 </mat-card>

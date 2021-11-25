@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Message} from "../../shared/models/message.model";
 import {Category} from "../../shared/models/category.model";
 import {VoteModel} from "../../shared/models/vote.model";
+import {CreateMessageModel} from "../../shared/models/create-message.model";
 
 
 @Injectable()
@@ -16,7 +17,7 @@ export class DashboardService {
     return this.http.get<Message[]>(`api/messages`);
   }
 
-  postMessage(msg: Message) {
+  postMessage(msg: CreateMessageModel) {
     return this.http.post(`api/messages`, msg);
   }
 

@@ -2,13 +2,14 @@ import {createAction, props} from "@ngrx/store";
 import {Message} from "../../shared/models/message.model";
 import {Category} from "../../shared/models/category.model";
 import {VoteModel} from "../../shared/models/vote.model";
+import {CreateMessageModel} from "../../shared/models/create-message.model";
 
 
 export const getMessages = createAction('[Dashboard] get Messages')
 export const getMessagesSuccess = createAction('[Dashboard] get Messages Success', props<{ result: Message[] }>())
 export const getMessagesFailure = createAction('[Dashboard] get Messages Failure')
 
-export const postMessage = createAction('[Dashboard] post Message', props<{ message: Message }>())
+export const postMessage = createAction('[Dashboard] post Message', props<{ message: CreateMessageModel }>())
 export const postMessageSuccess = createAction('[Dashboard] post Message Success')
 export const postMessageFailure = createAction('[Dashboard] post Message Failure')
 

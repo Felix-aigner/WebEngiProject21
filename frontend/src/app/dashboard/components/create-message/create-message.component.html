@@ -19,7 +19,8 @@
         </mat-form-field>
       </div>
       <div class="col-4 mt-2">
-        <button class="full-width" [disabled]="!newMessageForm.valid" (click)="submitNewMessage()" mat-raised-button
+        <button class="full-width" type="submit" [disabled]="!newMessageForm.valid" (click)="submitNewMessage()"
+                mat-raised-button
                 color="primary">schmettr
         </button>
       </div>

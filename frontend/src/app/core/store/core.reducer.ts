@@ -9,9 +9,11 @@ export interface CoreState {
   users: User[];
 }
 
+
+// remove after testing
 export const initialState: CoreState = {
   currUser: {
-    userId: "yolo",
+    id: "02BADEC4-6418-46C6-F4A6-08D9AFFCB04C",
     accessToken: "something",
     refreshToken: "awdawd",
     username: "yoho"

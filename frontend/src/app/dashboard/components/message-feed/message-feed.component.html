@@ -2,22 +2,24 @@
   <div class="col-5">
     <h2>Messages</h2>
   </div>
+  <div class="col-4">
+    <form [formGroup]="filterForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Filter</mat-label>
+        <mat-select formControlName="selectedCategories" multiple>
+          <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
   <ng-container *ngIf="messages.length >= 1; else noMessages">
-    <div class="col-4">
-      <form [formGroup]="filterForm">
-        <mat-form-field appearance="fill">
-          <mat-label>Filter</mat-label>
-          <mat-select formControlName="selectedCategories" multiple>
-            <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form>
-    </div>
     <div class="col-12" *ngFor="let msg of messages">
       <div class="mb-3">
         <app-message-card
           [currUser]="currUser"
           [msg]="msg"
+          [allowDelete]="feedTag == 'my'"
+          (deleteMessageWithId)="deleteMessage($event)"
           (voteMsg)="voteMessage($event, msg)"
           (patchVote)="patchVote($event, msg)"
           (newComment)="addNewComment($event, msg)"

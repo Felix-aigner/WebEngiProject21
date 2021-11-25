@@ -25,6 +25,7 @@
             [filterForm]="filterForm"
             [categories]="categories"
             (addComment)="dispatchNewComment($event)"
+            (deleteMessageWithId)="deleteMessage($event)"
           ></app-message-feed>
         </mat-tab>
         <mat-tab [disabled]="!userLoggedIn(currUser$ | async)" label="Liked Messages">

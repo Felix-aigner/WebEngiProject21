@@ -5,10 +5,10 @@ import {User} from "./user.model";
 
 export interface Message {
   id?: string
-  user?: User
-  text: string
+  owner?: User
+  content: string
   categories: Category[]
-  comments: MessageComment[]
-  votes: VoteModel[]
+  comments?: MessageComment[]
+  votes?: VoteModel[]
   createdAt?: string
 }

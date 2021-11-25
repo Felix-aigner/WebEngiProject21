@@ -4,10 +4,12 @@ import {Store} from "@ngrx/store";
 import {DashboardState} from "../../store/dashboard.reducer";
 import {selectCategories, selectMessages} from "../../store/dashboard.selectors";
 import {map} from "rxjs/operators";
-import {getCategories, getMessages} from "../../store/dashboard.actions";
+import {getCategories, getMessages, postMessage} from "../../store/dashboard.actions";
 import {Message} from "../../../shared/models/message.model";
 import {selectCurrUser} from "../../../core/store/core.selectors";
 import {User} from "../../../shared/models/user.model";
+import {CreateMessageModel} from "../../../shared/models/create-message.model";
+import {Category} from "../../../shared/models/category.model";
 
 @Component({
   selector: 'app-dashboard',
@@ -16,19 +18,21 @@ import {User} from "../../../shared/models/user.model";
 })
 export class DashboardComponent implements OnInit {
 
+  filterForm = this.fb.group({
+    selectedCategories: this.fb.control(undefined)
+  })
+
   currUser$ = this.store.select(selectCurrUser)
   categories$ = this.store.select(selectCategories)
   messages$ = this.store.select(selectMessages).pipe(
     map((messages) => {
-      //filter by categories
+      const selCats: Category[] = this.filterForm.controls['selectedCategories'].value
+      if (selCats && selCats.length >= 1) {
+        return messages.filter((message) => message.categories.filter((category) => selCats.filter((cat) => cat.id == category.id).length >= 1).length >= 1)
+      }
       return messages
     })
   )
-
-  filterForm = this.fb.group({
-    selectedCategories: this.fb.control('')
-  })
-
 
   constructor(private fb: FormBuilder, private store: Store<DashboardState>) {
   }
@@ -36,6 +40,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(getCategories())
     this.store.dispatch(getMessages())
+    this.filterForm.valueChanges.subscribe(data => {
+      this.store.dispatch(getMessages())
+    })
   }
 
   dispatchNewVote(msg: Message) {
@@ -44,10 +51,9 @@ export class DashboardComponent implements OnInit {
     //reload msges
   }
 
-  postNewMessage(msg: Message) {
+  postNewMessage(msg: CreateMessageModel) {
     console.log(msg)
-    // send new message to backen
-    //reload msges
+    this.store.dispatch(postMessage({message: msg}))
   }
 
   dispatchNewComment(msg: Message) {
@@ -60,16 +66,21 @@ export class DashboardComponent implements OnInit {
   }
 
   myMessages(messages: Message[], user: User | undefined | null) {
-    if (user?.userId) {
-      return messages.filter((message) => message.user?.userId == user.userId)
+    if (user?.id) {
+      const myMsges = messages.filter((message) => message.owner?.id == user.id?.toLowerCase())
+      return myMsges
     }
     return []
   }
 
   likedMessages(messages: Message[], user: User | undefined | null) {
-    if (user?.userId) {
-      return messages.filter((messages) => messages.votes.filter((vote) => vote.userId == user.userId && vote.voteFlag == "up").length >= 1)
+    if (user?.id) {
+      return messages.filter((messages) => (messages.votes) && messages.votes.filter((vote) => vote.userId == user.id && vote.voteFlag == "up").length >= 1)
     }
     return []
+  }
+
+  deleteMessage($event: string) {
+    /// TODO: delete message dispatch
   }
 }
