@@ -23,7 +23,7 @@ namespace Persistence
         public Message Create(MessageCreateDto messageDto)
         {
             var owner = _dbContext.Users.FirstOrDefault(u => u.Id == messageDto.OwnerId);
-            var categories = _dbContext.Categories.Where(c => messageDto.CategoriesId.Contains(c.Id)).ToList();
+            var categories = _dbContext.Categories.Where(c => messageDto.CategoriesId.Contains(c.Id))?.ToList();
             var message = _mapper.Map<Message>(messageDto);
             message.Owner = owner;
             message.Categories = categories;
@@ -44,6 +44,7 @@ namespace Persistence
                              .Include(m => m.Owner)
                              .Include(m => m.Categories)
                              .Include(m => m.Comments)
+                             .ThenInclude(c => c.Owner)
                              .Include(m => m.Votes)
                              .SingleOrDefault(m => m.Id == id);
         }
@@ -54,6 +55,7 @@ namespace Persistence
                              .Include(m => m.Owner)
                              .Include(m => m.Categories)
                              .Include(m => m.Comments)
+                             .ThenInclude(c => c.Owner)
                              .Include(m => m.Votes)
                              .ToList();
         }
@@ -64,17 +66,17 @@ namespace Persistence
                              .Include(m => m.Owner)
                              .Include(m => m.Categories)
                              .Include(m => m.Comments)
+                             .ThenInclude(c => c.Owner)
                              .Include(m => m.Votes)
                              .Where(m => m.Categories.Any(c => categoryIds.Contains(c.Id)))
                              .ToList();
         }
 
-        //public Message AddComment(MessageDto message, CommentDto comment)
-        //{
-        //    _dbContext.Users.Attach(message.Owner);
-        //    message.Comments.Add(comment);
-        //    _dbContext.SaveChanges();
-        //    return message;
-        //}
+        public Message AddComment(Message message, Comment comment)
+        {
+            message.Comments.Add(comment);
+            _dbContext.SaveChanges();
+            return message;
+        }
     }
 }

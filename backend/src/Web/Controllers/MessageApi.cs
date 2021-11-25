@@ -138,6 +138,33 @@ namespace Web.Controllers
         }
 
         /// <summary>
+        /// Add a new comment
+        /// </summary>
+        /// <param name="body">Comment object that needs to be added to the message</param>
+        /// <param name="messageId">ID of message to return</param>
+        /// <response code="405">Invalid input</response>
+        [HttpPost]
+        [Route("/schmettr/schmettr/1.0.0/message/{messageId}/comments")]
+        [ValidateModelState]
+        [SwaggerOperation("AddComment")]
+        public virtual IActionResult AddComment([FromBody] CommentCreateDto body, [FromRoute][Required] Guid messageId)
+        {
+            try
+            {
+                var message = _messageService.AddComment(messageId, body);
+                return Ok(message);
+            }
+            catch (MessageNotFoundException e)
+            {
+                return NotFound(e);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        /// <summary>
         /// Find message by ID
         /// </summary>
         /// <remarks>Returns a single message</remarks>
@@ -167,6 +194,6 @@ namespace Web.Controllers
         //        return Problem(e.Message);
         //    }
         //}
-        
+
     }
 }

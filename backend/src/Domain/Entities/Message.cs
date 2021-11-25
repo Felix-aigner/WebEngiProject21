@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -23,8 +24,7 @@ namespace Domain.Entities
 
         public virtual ICollection<Category> Categories { get; set; }
 
-        [Required]
-        public virtual User Owner { get; set; }
+        public virtual User? Owner { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
 

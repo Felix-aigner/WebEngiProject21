@@ -42,13 +42,5 @@ namespace Domain.Dtos
         [DataMember(Name = "owner")]
         public UserDto Owner { get; set; }
 
-        /// <summary>
-        /// Gets or Sets Message
-        /// </summary>
-        [Required]
-        [DataMember(Name = "message")]
-        public MessageDto Message { get; set; }
-
-
     }
 }

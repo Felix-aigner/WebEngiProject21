@@ -29,6 +29,7 @@ namespace Domain.Entities
         public string Password { get; set; }
 
         public virtual ICollection<Message> Messages{ get; set; }
+        public virtual ICollection<Comment> Comments{ get; set; }
 
     }
 }
