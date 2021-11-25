@@ -46,6 +46,7 @@ namespace Persistence
                              .Include(m => m.Comments)
                              .ThenInclude(c => c.Owner)
                              .Include(m => m.Votes)
+                             .ThenInclude(v => v.Owner)
                              .SingleOrDefault(m => m.Id == id);
         }
 
@@ -57,6 +58,7 @@ namespace Persistence
                              .Include(m => m.Comments)
                              .ThenInclude(c => c.Owner)
                              .Include(m => m.Votes)
+                             .ThenInclude(v => v.Owner)
                              .ToList();
         }
 
@@ -68,6 +70,7 @@ namespace Persistence
                              .Include(m => m.Comments)
                              .ThenInclude(c => c.Owner)
                              .Include(m => m.Votes)
+                             .ThenInclude(v => v.Owner)
                              .Where(m => m.Categories.Any(c => categoryIds.Contains(c.Id)))
                              .ToList();
         }
