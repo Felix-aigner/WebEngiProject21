@@ -78,5 +78,12 @@ namespace Persistence
             _dbContext.SaveChanges();
             return message;
         }
+
+        public Message AddVote(Message message, Vote vote)
+        {
+            message.Votes.Add(vote);
+            _dbContext.SaveChanges();
+            return message;
+        }
     }
 }

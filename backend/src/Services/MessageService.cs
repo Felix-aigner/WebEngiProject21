@@ -66,5 +66,16 @@ namespace Services
             var modifiedMessage = _messageRepository.AddComment(message, comment);
             return _mapper.Map<MessageDto>(modifiedMessage);
         }
+
+        public MessageDto AddVote(Guid messageId, VoteCreateDto voteDto)
+        {
+            var message = _messageRepository.GetBy(messageId);
+            var owner = _userRepository.GetBy(voteDto.OwnerId);
+            var vote = _mapper.Map<Vote>(voteDto);
+            vote.Message = message;
+            vote.Owner = owner;
+            var modifiedMessage = _messageRepository.AddVote(message, vote);
+            return _mapper.Map<MessageDto>(modifiedMessage);
+        }
     }
 }

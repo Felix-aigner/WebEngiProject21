@@ -30,6 +30,7 @@ namespace Domain.Entities
 
         public virtual ICollection<Message> Messages{ get; set; }
         public virtual ICollection<Comment> Comments{ get; set; }
+        public virtual ICollection<Vote> Votes{ get; set; }
 
     }
 }

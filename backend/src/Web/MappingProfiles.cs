@@ -13,6 +13,7 @@ namespace Web
             UserMaps();
             CommentMaps();
             CategoryMaps();
+            VoteMaps();
         }
 
         public void MessageMaps()
@@ -72,6 +73,22 @@ namespace Web
                     opt => opt.MapFrom(x => DateTime.Now)
                 );
             CreateMap<Category, CategoryCreateDto>()
+                .ReverseMap()
+                .ForMember(
+                    entity => entity.CreatedDate,
+                    opt => opt.MapFrom(x => DateTime.Now)
+                );
+        }
+
+        public void VoteMaps()
+        {
+            CreateMap<Vote, VoteDto>()
+                .ReverseMap()
+                .ForMember(
+                    entity => entity.CreatedDate,
+                    opt => opt.MapFrom(x => DateTime.Now)
+                );
+            CreateMap<Vote, VoteCreateDto>()
                 .ReverseMap()
                 .ForMember(
                     entity => entity.CreatedDate,

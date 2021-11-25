@@ -13,5 +13,6 @@ namespace Persistence.Interfaces
         List<Message> GetAll();
         List<Message> GetByCategories(List<Guid> categoryIds);
         Message AddComment(Message message, Comment comment);
+        Message AddVote(Message message, Vote vote);
     }
 }

@@ -8,7 +8,7 @@
 
     public class Vote : BaseEntity
     {
-        public virtual User User { get; set; }
+        public virtual User Owner { get; set; }
         public virtual Message Message { get; set; }
         public VoteEnum VoteEnum { get; set; }
     }

@@ -46,5 +46,11 @@ namespace Domain.Dtos
         /// </summary>
         [DataMember(Name = "comments")]
         public List<CommentDto> Comments{ get; set; }
+
+        /// <summary>
+        /// Gets or Sets Votes
+        /// </summary>
+        [DataMember(Name = "votes")]
+        public List<VoteDto> Votes { get; set; }
     }
 }
