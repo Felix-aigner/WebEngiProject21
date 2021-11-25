@@ -18,7 +18,8 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>();
+            modelBuilder.Entity<User>()
+                        .HasMany(u => u.Messages);
             modelBuilder.Entity<Message>()
                         .HasMany(m => m.Categories);
             modelBuilder.Entity<Comment>();

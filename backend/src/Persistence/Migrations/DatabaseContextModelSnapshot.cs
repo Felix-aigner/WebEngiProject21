@@ -68,7 +68,7 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("MessageId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("OwnerId")
+                    b.Property<Guid>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -93,7 +93,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("OwnerId")
+                    b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -178,8 +178,10 @@ namespace Persistence.Migrations
                         .HasForeignKey("MessageId");
 
                     b.HasOne("Domain.Entities.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
+                        .WithMany("Comments")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Owner");
                 });
@@ -188,9 +190,7 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Entities.User", "Owner")
                         .WithMany("Messages")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
@@ -219,6 +219,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618

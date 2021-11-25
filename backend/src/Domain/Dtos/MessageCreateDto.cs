@@ -22,9 +22,8 @@ namespace Domain.Dtos
         /// <summary>
         /// Gets or Sets Owner
         /// </summary>
-        [Required]
         [DataMember(Name = "ownerId")]
-        public Guid OwnerId { get; set; }
+        public Guid? OwnerId { get; set; }
 
 
         /// <summary>
