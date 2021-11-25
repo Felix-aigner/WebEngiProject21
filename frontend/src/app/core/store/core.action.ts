@@ -24,6 +24,4 @@ export const postSignUp = createAction('[Core] Post SignUp', props<{ signUpInfor
 export const postSignUpSuccess = createAction('[Core] Post SignUp Success');
 export const postSignUpFailure = createAction('[Core] Post SignUp Failure');
 
-export const logout = createAction('[Core] Logout', props<{ refreshToken: string }>());
-export const logoutSuccess = createAction('[Core] Logout Success');
-export const logoutFailure = createAction('[Core] Logout Failure');
+export const logout = createAction('[Core] Logout');

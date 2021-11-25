@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Message} from "../../shared/models/message.model";
 import {Category} from "../../shared/models/category.model";
@@ -26,19 +26,26 @@ export class DashboardService {
     return this.http.delete(`api/messages/${msgId}`)
   }
 
-  postVote(vote: VoteModel, msgId: string) {
-    return this.http.post(`api/messages/${msgId}/votes`, vote)
+  postVote(vote: VoteModel, msgId: string, token: string) {
+    return this.http.post(`api/messages/${msgId}/votes`, vote, {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    })
   }
 
-  patchVote(vote: VoteModel, msgId: string) {
-    return this.http.patch(`api/messages/${msgId}/votes`, vote)
+  patchVote(vote: VoteModel, msgId: string, token: string) {
+    return this.http.patch(`api/messages/${msgId}/votes`, vote, {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    })
   }
 
-  postComment(comment: CreateCommentModel, msgId: string) {
-    return this.http.post(`api/message/${msgId}/comments`, comment)
+  postComment(comment: CreateCommentModel, msgId: string, token: string) {
+    return this.http.post(`api/message/${msgId}/comments`, comment, {
+      headers: new HttpHeaders().set('Authorization', `Bearer ${token}`)
+    })
   }
 
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>('api/categories');
   }
+
 }

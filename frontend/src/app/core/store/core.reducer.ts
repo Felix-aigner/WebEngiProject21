@@ -1,6 +1,6 @@
 import {createReducer, on} from "@ngrx/store";
 import {User} from "src/app/shared/models/user.model";
-import {getUsersSuccess, logoutSuccess, postLoginSuccess, postUsernameSuccess} from "./core.action";
+import {getUsersSuccess, logout, postGoogleLoginSuccess, postLoginSuccess, postUsernameSuccess} from "./core.action";
 
 export const coreFeatureKey = 'core'
 
@@ -26,6 +26,10 @@ export const reducer = createReducer(
     ...state,
     currUser: action.user
   })),
+  on(postGoogleLoginSuccess, (state, action) => ({
+    ...state,
+    currUser: action.user
+  })),
   on(postUsernameSuccess, (state, action) => ({
     ...state,
     currUser: {
@@ -33,7 +37,7 @@ export const reducer = createReducer(
       username: action.username
     }
   })),
-  on(logoutSuccess, (state, action) => ({
+  on(logout, (state) => ({
     ...state,
     currUser: undefined
   }))
