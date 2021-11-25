@@ -108,7 +108,7 @@ namespace Web.Controllers
         /// <param name="username">New name</param>
         /// <response code="400">Invalid user supplied</response>
         /// <response code="404">User not found</response>
-        [HttpPut]
+        [HttpPatch]
         [Route("/schmettr/schmettr/1.0.0/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
