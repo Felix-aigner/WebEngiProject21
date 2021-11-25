@@ -13,12 +13,14 @@ namespace Services
     {
         private readonly IMessageRepository _messageRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public MessageService(IMessageRepository messageRepository, ICategoryRepository categoryRepository, IMapper mapper)
+        public MessageService(IMessageRepository messageRepository, ICategoryRepository categoryRepository, IUserRepository userRepository, IMapper mapper)
         {
             _messageRepository = messageRepository;
             _categoryRepository = categoryRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
         public MessageDto Create(MessageCreateDto messageDto)
@@ -34,8 +36,6 @@ namespace Services
             {
                 throw new MessageNotFoundException($"Message with id {id} was not found");
             }
-
-            //var messageToDelete = _mapper.Map<MessageDto>(message);
             _messageRepository.Delete(message);
         }
 
@@ -57,12 +57,14 @@ namespace Services
             return _mapper.Map<MessageDto>(message);
         }
 
-        //public MessageDto AddComment(Guid messageId, CommentDto commentDto)
-        //{
-        //    var message = _messageRepository.GetBy(messageId);
-        //    var comment = _mapper.Map<Comment>(commentDto);
-        //    var modifiedMessage = _messageRepository.AddComment(message, comment);
-        //    return _mapper.Map<MessageDto>(modifiedMessage);
-        //}
+        public MessageDto AddComment(Guid messageId, CommentCreateDto commentDto)
+        {
+            var message = _messageRepository.GetBy(messageId);
+            var owner = _userRepository.GetBy(commentDto.OwnerId);
+            var comment = _mapper.Map<Comment>(commentDto);
+            comment.Owner = owner;
+            var modifiedMessage = _messageRepository.AddComment(message, comment);
+            return _mapper.Map<MessageDto>(modifiedMessage);
+        }
     }
 }

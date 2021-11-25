@@ -12,6 +12,6 @@ namespace Persistence.Interfaces
         Message GetBy(Guid id);
         List<Message> GetAll();
         List<Message> GetByCategories(List<Guid> categoryIds);
-        //Message AddComment(MessageDto messageDto, CommentDto commentDto);
+        Message AddComment(Message message, Comment comment);
     }
 }
