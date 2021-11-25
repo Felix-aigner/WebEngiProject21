@@ -9,7 +9,7 @@
     </a>
   </div>
   <ng-container *ngIf="currUser$ | async as currUser; else noCurrUser">
-    <a mat-list-item (click)="openAccount()">Account</a>
+    <a mat-list-item (click)="openAccount(currUser)">Account</a>
     <a mat-list-item (click)="logout(currUser.refreshToken)">Logout</a>
   </ng-container>
   <ng-template #noCurrUser>

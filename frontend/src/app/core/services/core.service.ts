@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {LoginCredential} from "src/app/shared/models/login-credential.model";
 import {SignUpInformation} from "src/app/shared/models/signup-information.model";
 import {User} from "src/app/shared/models/user.model";
+import {GoogleCredentials} from "../../shared/models/google-credentials.model";
 
 @Injectable()
 export class CoreService {
@@ -22,8 +23,12 @@ export class CoreService {
     return this.http.post<User>('api/users/authentication', loginCredential);
   }
 
+  postGoogleLogin(googleLoginCredential: GoogleCredentials): Observable<User> {
+    return this.http.post<User>('api/users/authentication', googleLoginCredential);
+  }
+
   postSignUp(signUpInformation: SignUpInformation) {
-    return this.http.post('api/users/registration', signUpInformation)
+    return this.http.post('api/user', signUpInformation)
   }
 
   postLogout(refreshToken: string) {

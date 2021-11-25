@@ -19,8 +19,8 @@ import {EffectsModule} from "@ngrx/effects";
 import {CoreEffects} from "./store/core.effects";
 import {HttpClientModule} from "@angular/common/http";
 import {CoreService} from "./services/core.service";
-
-// import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from 'angularx-social-login';
+import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -44,9 +44,25 @@ import {CoreService} from "./services/core.service";
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
+    SocialLoginModule,
+    ReactiveFormsModule
   ],
   providers: [
-    CoreService
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '708313847097-qqhkk449k8ut39q0uf0290rhvgm4cthh.apps.googleusercontent.com'
+            )
+          }
+        ]
+      } as SocialAuthServiceConfig
+    },
+    CoreService,
   ]
 })
 export class CoreModule {

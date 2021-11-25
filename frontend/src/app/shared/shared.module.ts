@@ -14,6 +14,7 @@ import {LoginDialogComponent} from "./components/login-dialog/login-dialog.compo
 import {SignupDialogComponent} from "./components/signup-dialog/signup-dialog.component";
 import {AccountDialogComponent} from "./components/account-dialog/account-dialog.component";
 import {ConfirmationDialogComponent} from './components/confirmation-dialog/confirmation-dialog.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
@@ -42,8 +43,9 @@ import {ConfirmationDialogComponent} from './components/confirmation-dialog/conf
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDividerModule
-  ]
+    MatDividerModule,
+    MatTabsModule,
+  ],
 })
 export class SharedModule {
 }

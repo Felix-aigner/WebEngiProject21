@@ -1,12 +1,24 @@
-<p>login-dialog works!</p>
+<h2 mat-dialog-title>Login</h2>
+<mat-tab-group>
+  <mat-tab label="Google">
+    <div class="d-flex justify-content-center m-2 mt-5">
+      <button (click)="loginWithGoogleAuth()" mat-raised-button>Authenticate with Google</button>
+    </div>
+  </mat-tab>
+  <mat-tab label="Login">
+    <div class="d-flex justify-content-center">
+      <form [formGroup]="userForm">
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <textarea matInput formControlName="username"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <textarea matInput [type]="'password'" formControlName="password"></textarea>
+        </mat-form-field>
+      </form>
+    </div>
+    <button mat-raised-button [disabled]="!userForm.valid" (click)="loginWithSchmettr()">Login</button>
+  </mat-tab>
+</mat-tab-group>
 
-
-<div>
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <div class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a (click)="loginWithGoogleAuth()" class="nav-link">Sign in with google</a>
-        </li>	
-      </div>	  
-    </nav>
-</div>
