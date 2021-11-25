@@ -1,5 +1,5 @@
 export interface CreateMessageModel {
-  OwnerId: string,
+  OwnerId?: string,
   Content: string,
   CategoriesId: string[]
 }
