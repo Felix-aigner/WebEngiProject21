@@ -48,6 +48,9 @@ export class MessageCardComponent implements OnInit {
   }
 
   downVoteAllowed(): boolean {
+    if (!this.currUser?.accessToken) {
+      return false
+    }
     if (this.msg.votes) {
       const currVotes = this.msg.votes.filter((vote) => (vote.userId == this.currUser?.id))
       if (currVotes.length !== 0) {
@@ -58,6 +61,9 @@ export class MessageCardComponent implements OnInit {
   }
 
   upVoteAllowed(): boolean {
+    if (!this.currUser?.accessToken) {
+      return false
+    }
     if (this.msg.votes) {
       const currVotes = this.msg.votes.filter((vote) => (vote.userId == this.currUser?.id))
       if (currVotes.length !== 0) {
