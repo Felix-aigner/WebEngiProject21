@@ -20,6 +20,7 @@ using Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using Web.Attributes;
 using Web.Security;
+using ApplicationException = System.ApplicationException;
 
 namespace Web.Controllers
 {
@@ -101,7 +102,7 @@ namespace Web.Controllers
                 _messageService.Delete(messageId);
                 return Ok();
             }
-            catch (MessageNotFoundException e)
+            catch (ResourceNotFoundException e)
             {
                 return NotFound(e);
             }
@@ -155,7 +156,7 @@ namespace Web.Controllers
                 var message = _messageService.AddComment(messageId, body);
                 return Ok(message);
             }
-            catch (MessageNotFoundException e)
+            catch (ResourceNotFoundException e)
             {
                 return NotFound(e);
             }
@@ -182,9 +183,13 @@ namespace Web.Controllers
                 _messageService.AddVote(messageId, body);
                 return Ok();
             }
-            catch (MessageNotFoundException e)
+            catch (ResourceNotFoundException e)
             {
                 return NotFound(e);
+            }
+            catch (ApplicationException e)
+            {
+                return BadRequest(e);
             }
             catch (Exception e)
             {
@@ -203,9 +208,13 @@ namespace Web.Controllers
                 _messageService.UpdateVote(messageId, body);
                 return Ok();
             }
-            catch (MessageNotFoundException e)
+            catch (ResourceNotFoundException e)
             {
                 return NotFound(e);
+            }
+            catch (ApplicationException e)
+            {
+                return BadRequest(e);
             }
             catch (Exception e)
             {

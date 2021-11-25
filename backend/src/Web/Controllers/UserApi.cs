@@ -90,7 +90,7 @@ namespace Web.Controllers
                 _userService.Delete(username);
                 return Ok();
             }
-            catch (UserNotFoundException e)
+            catch (ResourceNotFoundException e)
             {
                 return NotFound(e);
             }
@@ -148,7 +148,7 @@ namespace Web.Controllers
                 var user = _userService.GetBy(username);
                 return Ok(user);
             }
-            catch (UserNotFoundException e)
+            catch (ResourceNotFoundException e)
             {
                 return NotFound(e);
             }

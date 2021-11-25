@@ -46,7 +46,7 @@ namespace Services
 
             if (user == null)
             {
-                throw new UserNotFoundException($"User with Username {username} not found");
+                throw new ResourceNotFoundException($"User with Username {username} not found");
             }
 
             return user;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using AutoMapper;
 using Domain.Dtos;
@@ -7,6 +8,7 @@ using Domain.Entities;
 using Persistence.Interfaces;
 using Services.Exceptions;
 using Services.Interfaces;
+using ApplicationException = Services.Exceptions.ApplicationException;
 
 namespace Services
 {
@@ -37,7 +39,7 @@ namespace Services
             var message = _messageRepository.GetBy(id);
             if (message == null)
             {
-                throw new MessageNotFoundException($"Message with id {id} was not found");
+                throw new ResourceNotFoundException($"Message with id {id} was not found");
             }
             _messageRepository.Delete(message);
         }
@@ -73,6 +75,12 @@ namespace Services
         public MessageDto AddVote(Guid messageId, VoteCreateDto voteDto)
         {
             var message = _messageRepository.GetBy(messageId);
+
+            if (message.Votes.FirstOrDefault(v => v.Owner.Id == voteDto.OwnerId) != null)
+            {
+                throw new ApplicationException("This user has already voted");
+            }
+            
             var owner = _userRepository.GetBy(voteDto.OwnerId);
             var vote = _mapper.Map<Vote>(voteDto);
             vote.Message = message;
@@ -87,17 +95,17 @@ namespace Services
 
             if (vote == null)
             {
-                throw new Exception("Vote was not found");
+                throw new ResourceNotFoundException("Vote was not found");
             }
 
             if (vote.Message.Id != messageId)
             {
-                throw new Exception("Vote does not belong to Message");
+                throw new ApplicationException("Vote does not belong to Message");
             }
 
             if (vote.Owner.Id != patchDto.OwnerId)
             {
-                throw new Exception("Vote does not belong to this user");
+                throw new ApplicationException("Vote does not belong to this user");
             }
 
             vote.VoteEnum = patchDto.VoteEnum;

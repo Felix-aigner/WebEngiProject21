@@ -51,7 +51,7 @@ namespace Web.Controllers
                 //return Ok(message);
                 return Ok();
             }
-            catch (MessageNotFoundException e)
+            catch (ResourceNotFoundException e)
             {
                 return NotFound(e);
             }
