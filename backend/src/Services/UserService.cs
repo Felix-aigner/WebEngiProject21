@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Authentication;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
@@ -64,6 +65,35 @@ namespace Services
         {
             var userToDelete = GetUserBy(username);
             _userRepository.Delete(userToDelete);
+        }
+
+        public UserDto Authenticate(string username, string password)
+        {
+            var user = _userRepository.GetBy(username);
+            
+            if (user == null || user.Password != password)
+            {
+                throw new AuthenticationException($"Either username or password is wrong");
+            }
+
+            return _mapper.Map<UserDto>(user);
+        }
+
+        public UserDto SocialAuthentication(string email, string username)
+        {
+            var user = _mapper.Map<UserDto>(_userRepository.GetByEmail(email));
+
+            if (user == null)
+            {
+                user = Create(new UserCreateDto()
+                {
+                    Email = email,
+                    Username = username,
+                    Password = ""
+                });
+            }
+            
+            return user;
         }
     }
 }

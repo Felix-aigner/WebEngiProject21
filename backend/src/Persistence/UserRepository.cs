@@ -28,6 +28,11 @@ namespace Persistence
             return _dbContext.Users.FirstOrDefault(u => u.Username == username);
         }
 
+        public User GetByEmail(string email)
+        {
+            return _dbContext.Users.FirstOrDefault(u => u.Email == email);
+        }
+
         public User Create(UserCreateDto userDto)
         {
             var user = _mapper.Map<User>(userDto);

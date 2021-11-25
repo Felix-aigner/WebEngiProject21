@@ -9,14 +9,19 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using Domain.Dtos;
+using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Services.Exceptions;
 using Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using Web.Attributes;
+using Web.Security;
 
 namespace Web.Controllers
 { 
@@ -26,14 +31,15 @@ namespace Web.Controllers
     [ApiController]
     public class UserApiController : ControllerBase
     {
+        private readonly IJwtService _jwtService;
+        private readonly ISocialAuthenticationService _socialAuthenticationService;
         private readonly IUserService _userService;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userService"></param>
-        public UserApiController(IUserService userService)
+
+        public UserApiController(IJwtService jwtService, ISocialAuthenticationService socialAuthenticationService, IUserService userService)
         {
+            _jwtService = jwtService;
+            _socialAuthenticationService = socialAuthenticationService;
             _userService = userService;
         }
 
@@ -157,50 +163,45 @@ namespace Web.Controllers
                 throw;
             }
         }
-
-        /// <summary>
-        /// Logs user into the system
-        /// </summary>
-        /// <param name="username">The user name for login</param>
-        /// <param name="password">The password for login in clear text</param>
-        /// <response code="200">successful operation</response>
-        /// <response code="400">Invalid username/password supplied</response>
-        [HttpGet]
-        [Route("/schmettr/schmettr/1.0.0/user/login")]
-        [ValidateModelState]
-        [SwaggerOperation("LoginUser")]
-        [SwaggerResponse(statusCode: 200, type: typeof(string), description: "successful operation")]
-        public virtual IActionResult LoginUser([FromQuery][Required()]string username, [FromQuery][Required()]string password)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(string));
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-            string exampleJson = null;
-            exampleJson = "\"\"";
+        
+        [HttpPost("/schmettr/schmettr/1.0.0/user/authentication")]
+        public virtual IActionResult Authentication([FromBody] AuthenticationCredentialDto authenticationCredential)
+        {
+            var user = _userService.Authenticate(authenticationCredential.Username, authenticationCredential.Password);
+            var accessToken = _jwtService.GenerateAccessToken(user);
             
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<string>(exampleJson)
-                        : default(string);            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return Ok(new AuthenticatedUserDto()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                accessToken = accessToken,
+            });
         }
+        
+        [HttpPost("/schmettr/schmettr/1.0.0/user/authentication/google")]
+        public virtual async Task<IActionResult> AuthenticationWithGoogle([FromBody] SocialAuthenticationCredentialDto socialAuthenticationCredential)
+        {
+            try
+            {
+                var gmail = await
+                    _socialAuthenticationService.VerifyGoogleCredentialAsync(socialAuthenticationCredential.IdToken);
 
-        /// <summary>
-        /// Logs out current logged in user session
-        /// </summary>
-        /// <response code="0">successful operation</response>
-        [HttpGet]
-        [Route("/schmettr/schmettr/1.0.0/user/logout")]
-        [ValidateModelState]
-        [SwaggerOperation("LogoutUser")]
-        public virtual IActionResult LogoutUser()
-        { 
-            //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(0);
-
-            throw new NotImplementedException();
+                var user = _userService.SocialAuthentication(gmail, socialAuthenticationCredential.Username);
+                var accessToken = _jwtService.GenerateAccessToken(user);
+            
+                return Ok(new AuthenticatedUserDto()
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    accessToken = accessToken,
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
-
     }
 }

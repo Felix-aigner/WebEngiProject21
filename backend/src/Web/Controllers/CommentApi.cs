@@ -11,6 +11,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Domain.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Exceptions;
 using Services.Interfaces;
@@ -22,6 +23,7 @@ namespace Web.Controllers
     /// <summary>
     /// 
     /// </summary>
+    [Authorize]
     [ApiController]
     public class CommentApiController : ControllerBase
     {

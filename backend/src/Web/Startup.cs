@@ -10,7 +10,9 @@
 
 using System;
 using System.IO;
+using System.Text;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -26,6 +29,7 @@ using Persistence.Interfaces;
 using Services;
 using Services.Interfaces;
 using Web.Filters;
+using Web.Options;
 using Web.Security;
 
 namespace Web
@@ -71,9 +75,37 @@ namespace Web
                 .AddXmlSerializerFormatters();
 
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("schmettr")));
+            
+            // services.AddAuthentication(ApiKeyAuthenticationHandler.SchemeName)
+            //         .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(ApiKeyAuthenticationHandler.SchemeName, null);
 
-            services.AddAuthentication(ApiKeyAuthenticationHandler.SchemeName)
-                    .AddScheme<AuthenticationSchemeOptions, ApiKeyAuthenticationHandler>(ApiKeyAuthenticationHandler.SchemeName, null);
+            var socialAuthOption = new SocialAuthenticationOption();
+            Configuration.GetSection(SocialAuthenticationOption.Name).Bind(socialAuthOption);
+            services.AddSingleton(socialAuthOption);
+            
+            var jwtOption = new JwtOption();
+            Configuration.GetSection(JwtOption.Name).Bind(jwtOption);
+            services.AddSingleton(jwtOption);
+            
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOption.Secret)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true
+                    };
+                });
             
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
@@ -81,6 +113,8 @@ namespace Web
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IMessageService, MessageService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IJwtService, JwtService>();
+            services.AddTransient<ISocialAuthenticationService, SocialAuthenticationService>();
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -108,6 +142,29 @@ namespace Web
                     // Include DataAnnotation attributes on Controller Action parameters as Swagger validation rules (e.g required, pattern, ..)
                     // Use [ValidateModelState] on Actions to actually validate it in C# as well!
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
+                    
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Description = "JWT Authorization",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                    });
+
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] { }
+                        }
+                    });
                 });
 
             
@@ -126,6 +183,7 @@ namespace Web
             //TODO: Uncomment this if you need wwwroot folder
              //app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger();
