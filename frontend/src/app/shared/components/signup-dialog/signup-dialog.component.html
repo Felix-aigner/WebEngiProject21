@@ -1,1 +1,17 @@
-<p>signup-dialog works!</p>
+<div class="d-flex justify-content-center">
+  <form [formGroup]="signupForm">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <textarea matInput formControlName="username"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <textarea matInput [type]="'email'" formControlName="email"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <textarea matInput [type]="'password'" formControlName="password"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<button mat-raised-button [disabled]="!signupForm.valid" (click)="signUpWithSchmettr()">Login</button>

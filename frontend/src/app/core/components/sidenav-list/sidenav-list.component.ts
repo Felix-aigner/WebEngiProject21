@@ -5,8 +5,9 @@ import {LoginDialogComponent} from 'src/app/shared/components/login-dialog/login
 import {SignupDialogComponent} from 'src/app/shared/components/signup-dialog/signup-dialog.component';
 import {CoreState} from "../../store/core.reducer";
 import {Store} from "@ngrx/store";
-import {logout} from "../../store/core.action";
+import {logout, postGoogleLogin, postLogin, postSignUp, postUsername} from "../../store/core.action";
 import {selectCurrUser} from "../../store/core.selectors";
+import {User} from "../../../shared/models/user.model";
 
 @Component({
   selector: 'app-sidenav-list',
@@ -31,20 +32,37 @@ export class SidenavListComponent implements OnInit {
 
   openLogin() {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '350px',
+      width: '400px',
+      minHeight: '350px'
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.idToken) {
+        this.store.dispatch(postGoogleLogin({loginCredentials: result}))
+      } else {
+        this.store.dispatch(postLogin({loginCredentials: result}))
+      }
+    })
   }
 
   openSignUp() {
     const dialogRef = this.dialog.open(SignupDialogComponent, {
-      width: '350px',
+      width: '400px',
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.store.dispatch(postSignUp({signUpInformation: result}))
+      }
+    })
   }
 
-  openAccount() {
+  openAccount(currUser: User) {
     const dialogRef = this.dialog.open(AccountDialogComponent, {
-      width: '350px',
+      width: '400px',
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != '' && currUser.id)
+        this.store.dispatch(postUsername({id: currUser.id, username: result}))
+    })
   }
 
   logout(refreshToken: string | undefined) {

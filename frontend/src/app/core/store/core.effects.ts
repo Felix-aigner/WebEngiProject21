@@ -8,6 +8,9 @@ import {
   logout,
   logoutFailure,
   logoutSuccess,
+  postGoogleLogin,
+  postGoogleLoginFailure,
+  postGoogleLoginSuccess,
   postLogin,
   postLoginFailure,
   postLoginSuccess,
@@ -20,6 +23,7 @@ import {
 } from "./core.action";
 import {catchError, concatMap, map, mergeMap} from "rxjs/operators";
 import {of} from "rxjs";
+import {getMessages} from "../../dashboard/store/dashboard.actions";
 
 @Injectable()
 export class CoreEffects {
@@ -51,6 +55,16 @@ export class CoreEffects {
     )
   );
 
+  postUsernameSuccess$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(postUsernameSuccess),
+      concatMap(() => [
+          getMessages()
+        ]
+      )
+    )
+  )
+
   postLogin$ = createEffect(() =>
     this.action$.pipe(
       ofType(postLogin),
@@ -58,6 +72,18 @@ export class CoreEffects {
         this.coreService.postLogin(action.loginCredentials).pipe(
           map((result) => postLoginSuccess({user: result})),
           catchError(() => of(postLoginFailure()))
+        )
+      )
+    )
+  )
+
+  postGoogleLogin$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(postGoogleLogin),
+      concatMap((action) =>
+        this.coreService.postGoogleLogin(action.loginCredentials).pipe(
+          map((result) => postGoogleLoginSuccess({user: result})),
+          catchError(() => of(postGoogleLoginFailure()))
         )
       )
     )
