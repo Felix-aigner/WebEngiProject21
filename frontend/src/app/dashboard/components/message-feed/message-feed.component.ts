@@ -6,7 +6,7 @@ import {User} from "../../../shared/models/user.model";
 import {VoteModel} from "../../../shared/models/vote.model";
 import {DashboardState} from "../../store/dashboard.reducer";
 import {Store} from "@ngrx/store";
-import {patchVote, postVote} from "../../store/dashboard.actions";
+import {patchVote, postComment, postVote} from "../../store/dashboard.actions";
 
 @Component({
   selector: 'app-message-feed',
@@ -34,10 +34,11 @@ export class MessageFeedComponent implements OnInit {
 
 
   addNewComment(comment: string, msg: Message) {
-    if (!msg.comments)
-      msg.comments = []
-    msg.comments.push({text: comment})
-    this.addComment.emit(msg)
+    const currUserId = this.currUser?.id
+    if (msg.id && currUserId) {
+      this.store.dispatch(postComment({msgId: msg.id, comment: {OwnerId: currUserId, Content: comment}}))
+
+    }
   }
 
   voteMessage(vote: VoteModel, msg: Message) {

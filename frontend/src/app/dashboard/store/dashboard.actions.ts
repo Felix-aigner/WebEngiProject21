@@ -3,6 +3,7 @@ import {Message} from "../../shared/models/message.model";
 import {Category} from "../../shared/models/category.model";
 import {VoteModel} from "../../shared/models/vote.model";
 import {CreateMessageModel} from "../../shared/models/create-message.model";
+import {CreateCommentModel} from "../../shared/models/create-comment.model";
 
 
 export const getMessages = createAction('[Dashboard] get Messages')
@@ -25,7 +26,7 @@ export const patchVote = createAction('[Dashboard] patch Vote', props<{ vote: Vo
 export const patchVoteSuccess = createAction('[Dashboard] patch Vote Success')
 export const patchVoteFailure = createAction('[Dashboard] patch Vote Failure')
 
-export const postComment = createAction('[Dashboard] post Comment', props<{ comment: Comment, msgId: string }>())
+export const postComment = createAction('[Dashboard] post Comment', props<{ comment: CreateCommentModel, msgId: string }>())
 export const postCommentSuccess = createAction('[Dashboard] post Comment Success')
 export const postCommentFailure = createAction('[Dashboard] post Comment Failure')
 

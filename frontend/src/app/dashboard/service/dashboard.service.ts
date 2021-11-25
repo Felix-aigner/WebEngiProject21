@@ -5,6 +5,7 @@ import {Message} from "../../shared/models/message.model";
 import {Category} from "../../shared/models/category.model";
 import {VoteModel} from "../../shared/models/vote.model";
 import {CreateMessageModel} from "../../shared/models/create-message.model";
+import {CreateCommentModel} from "../../shared/models/create-comment.model";
 
 
 @Injectable()
@@ -33,8 +34,8 @@ export class DashboardService {
     return this.http.patch(`api/messages/${msgId}/votes`, vote)
   }
 
-  postComment(comment: Comment, msgId: string) {
-    return this.http.post(`api/messages/${msgId}/comments`, comment)
+  postComment(comment: CreateCommentModel, msgId: string) {
+    return this.http.post(`api/message/${msgId}/comments`, comment)
   }
 
   getCategories(): Observable<Category[]> {
