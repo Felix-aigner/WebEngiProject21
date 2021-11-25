@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Net;
-using Data.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using AutoMapper;
+using Domain.Dtos;
+using Domain.Entities;
 using Persistence.Interfaces;
 using Services.Exceptions;
 using Services.Interfaces;
@@ -11,32 +11,53 @@ namespace Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
-        public User CreateUser(User user)
+        public UserDto Create(UserCreateDto userDto)
         {
-            var userNameAlreadyExists = _userRepository.UsernameAlreadyExists(user.Username);
-            if (!userNameAlreadyExists)
+            var userNameAlreadyExists = _userRepository.UsernameAlreadyExists(userDto.Username);
+            if (userNameAlreadyExists)
             {
-               return _userRepository.CreateUser(user);
+                throw new UsernameAlreadyExistsException($"Username {userDto.Username} already exists");
             }
-            throw new UsernameAlreadyExistsException($"Username {user.Username} already exists");
+            var createdUser = _userRepository.Create(userDto);
+            return _mapper.Map<UserDto>(createdUser);
         }
 
-        public void DeleteUser(string username)
+        public User GetBy(string username)
         {
-            var userToDelete = _userRepository.GetUser(username);
-            
-            if (userToDelete == null)
+            var user = _userRepository.GetBy(username);
+
+            if (user == null)
             {
                 throw new UserNotFoundException($"User with Username {username} not found");
             }
 
-            _userRepository.DeleteUser(userToDelete);
+            return user;
+        }
+
+        public UserDto Update(Guid userId, string username)
+        {
+            if (_userRepository.UsernameAlreadyExists(username))
+            {
+                throw new UsernameAlreadyExistsException($"Username {username} already exists");
+            }
+            var user = _userRepository.GetBy(userId);
+            user.Username = username;
+            _userRepository.Update(user);
+            return _mapper.Map<UserDto>(user);
+        }
+
+        public void Delete(string username)
+        {
+            var userToDelete = GetBy(username);
+            _userRepository.Delete(userToDelete);
         }
     }
 }

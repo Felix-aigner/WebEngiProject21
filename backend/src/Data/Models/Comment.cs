@@ -42,6 +42,8 @@ namespace Data.Models
         [DataMember(Name="owner")]
         public User Owner { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

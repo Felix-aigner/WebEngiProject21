@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Data.Models;
+using AutoMapper;
+using Domain.Dtos;
+using Domain.Entities;
 using Persistence.Interfaces;
 
 namespace Persistence
@@ -10,39 +10,46 @@ namespace Persistence
     public class UserRepository : IUserRepository
     {
         private readonly DatabaseContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public UserRepository(DatabaseContext dbContext)
+        public UserRepository(DatabaseContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public User GetUser(Guid id)
+        public User GetBy(Guid id)
         {
-            return _dbContext.Users.Single(u => u.Id == id);
+            return _dbContext.Users.SingleOrDefault(u => u.Id == id);
         }
 
-        public User GetUser(string username)
+        public User GetBy(string username)
         {
-            var bla = _dbContext.Users.FirstOrDefault(u => u.Username == username);
-            return bla;
+            return _dbContext.Users.FirstOrDefault(u => u.Username == username);
         }
 
-        public User CreateUser(User user)
+        public User Create(UserCreateDto userDto)
         {
-            var createdUser = _dbContext.Add(user).Entity;
+            var user = _mapper.Map<User>(userDto);
+            _dbContext.Add(user);
             _dbContext.SaveChanges();
-            return createdUser;
+            return user;
         }
 
-        public void DeleteUser(User user)
+        public void Update(User user)
         {
-            _dbContext.Users.Remove(user);
+            _dbContext.SaveChanges();
+        }
+
+        public void Delete(User user)
+        {
+            _dbContext.Remove(user);
             _dbContext.SaveChanges();
         }
 
         public bool UsernameAlreadyExists(string username)
         {
-            return GetUser(username) != null;
+            return GetBy(username) != null;
         }
     }
 }

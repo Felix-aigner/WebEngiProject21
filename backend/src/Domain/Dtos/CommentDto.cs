@@ -9,48 +9,46 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Data.Models
+namespace Domain.Dtos
 { 
     /// <summary>
-    /// 
+    /// Comment of a Message
     /// </summary>
     [DataContract]
-    public class Category
-    { 
+    public class CommentDto
+    {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [Required]
-        [DataMember(Name="id")]
+        [DataMember(Name = "id")]
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets Name
+        /// Gets or Sets Content
         /// </summary>
         [Required]
-        [DataMember(Name="name")]
-        public string Name { get; set; }
+        [DataMember(Name="content")]
+        public string Content { get; set; }
 
-
-        public List<Message> Messages { get; set; }
         /// <summary>
-        /// Returns the string presentation of the object
+        /// Gets or Sets Owner
         /// </summary>
-        /// <returns>String presentation of the object</returns>
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-            sb.Append("class Category {\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
-            sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("}\n");
-            return sb.ToString();
-        }
+        [Required]
+        [DataMember(Name = "owner")]
+        public UserDto Owner { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Message
+        /// </summary>
+        [Required]
+        [DataMember(Name = "message")]
+        public MessageDto Message { get; set; }
+
 
     }
 }

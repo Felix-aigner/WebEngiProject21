@@ -10,13 +10,9 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using Data.Models;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Persistence;
-using Persistence.Interfaces;
 using Services.Exceptions;
 using Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -52,11 +48,11 @@ namespace Web.Controllers
         [Route("/schmettr/schmettr/1.0.0/user")]
         [ValidateModelState]
         [SwaggerOperation("CreateUser")]
-        public virtual IActionResult CreateUser([FromBody]User body)
+        public virtual IActionResult CreateUser([FromBody]UserCreateDto body)
         {
             try
             {
-                var user = _userService.CreateUser(body);
+                var user = _userService.Create(body);
                 return Ok(user);
             }
             catch (UsernameAlreadyExistsException e)
@@ -85,7 +81,7 @@ namespace Web.Controllers
         {
             try
             {
-                _userService.DeleteUser(username);
+                _userService.Delete(username);
                 return Ok();
             }
             catch (UserNotFoundException e)
@@ -99,6 +95,44 @@ namespace Web.Controllers
         }
 
         /// <summary>
+        /// Updated user
+        /// </summary>
+        /// <remarks>This can only be done by the logged in user.</remarks>
+        /// <param name="userId">Update userid</param>
+        /// <param name="username">name that need to be updated</param>
+        /// <response code="400">Invalid user supplied</response>
+        /// <response code="404">User not found</response>
+        [HttpPut]
+        [Route("/schmettr/schmettr/1.0.0/user/{username}")]
+        [ValidateModelState]
+        [SwaggerOperation("UpdateUser")]
+        public virtual IActionResult UpdateUser([FromBody] Guid userId, [FromRoute][Required] string username)
+        {
+
+            try
+            {
+                var user = _userService.Update(userId, username);
+                return Ok(user);
+            }
+            catch (UsernameAlreadyExistsException e)
+            {
+                return Conflict(e);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(400);
+
+            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(404);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Get user by user name
         /// </summary>
         /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
@@ -109,7 +143,7 @@ namespace Web.Controllers
         [Route("/schmettr/schmettr/1.0.0/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("GetUserByName")]
-        [SwaggerResponse(statusCode: 200, type: typeof(User), description: "successful operation")]
+        [SwaggerResponse(statusCode: 200, type: typeof(UserDto), description: "successful operation")]
         public virtual IActionResult GetUserByName([FromRoute][Required]string username)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -124,8 +158,8 @@ namespace Web.Controllers
             exampleJson = "{\n  \"password\" : \"password\",\n  \"id\" : 1,\n  \"email\" : \"email\",\n  \"username\" : \"username\"\n}";
             
                         var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<User>(exampleJson)
-                        : default(User);            //TODO: Change the data returned
+                        ? JsonConvert.DeserializeObject<UserDto>(exampleJson)
+                        : default(UserDto);            //TODO: Change the data returned
             return new ObjectResult(example);
         }
 
@@ -173,27 +207,5 @@ namespace Web.Controllers
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Updated user
-        /// </summary>
-        /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="body">Updated user object</param>
-        /// <param name="username">name that need to be updated</param>
-        /// <response code="400">Invalid user supplied</response>
-        /// <response code="404">User not found</response>
-        [HttpPut]
-        [Route("/schmettr/schmettr/1.0.0/user/{username}")]
-        [ValidateModelState]
-        [SwaggerOperation("UpdateUser")]
-        public virtual IActionResult UpdateUser([FromBody]User body, [FromRoute][Required]string username)
-        { 
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-
-            throw new NotImplementedException();
-        }
     }
 }

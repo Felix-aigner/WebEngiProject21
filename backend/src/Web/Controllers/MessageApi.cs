@@ -11,10 +11,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Data.Models;
+using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Services.Exceptions;
+using Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using Web.Attributes;
 using Web.Security;
@@ -26,22 +28,38 @@ namespace Web.Controllers
     /// </summary>
     [ApiController]
     public class MessageApiController : ControllerBase
-    { 
+    {
+        private readonly IMessageService _messageService;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messageService"></param>
+        public MessageApiController(IMessageService messageService)
+        {
+            _messageService = messageService;
+        }
+
         /// <summary>
         /// Add a new message
         /// </summary>
         /// <param name="body">Message object that needs to be added to the message board</param>
         /// <response code="405">Invalid input</response>
         [HttpPost]
-        [Route("/schmettr/schmettr/1.0.0/message")]
+        [Route("/schmettr/schmettr/1.0.0/messages")]
         [ValidateModelState]
         [SwaggerOperation("AddMessage")]
-        public virtual IActionResult AddMessage([FromBody]Message body)
-        { 
-            //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(405);
-
-            throw new NotImplementedException();
+        public virtual IActionResult AddMessage([FromBody]MessageCreateDto body)
+        {
+            try
+            {
+                var message = _messageService.Create(body);
+                return Ok(message);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
 
         /// <summary>
@@ -52,18 +70,24 @@ namespace Web.Controllers
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Message not found</response>
         [HttpDelete]
-        [Route("/schmettr/schmettr/1.0.0/message/{messageId}")]
+        [Route("/schmettr/schmettr/1.0.0/messages/{messageId}")]
         [ValidateModelState]
         [SwaggerOperation("DeleteMessage")]
-        public virtual IActionResult DeleteMessage([FromRoute][Required]long? messageId, [FromHeader]string apiKey)
-        { 
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-
-            throw new NotImplementedException();
+        public virtual IActionResult DeleteMessage([FromRoute][Required]Guid messageId)
+        {
+            try
+            {
+                _messageService.Delete(messageId);
+                return Ok();
+            }
+            catch (MessageNotFoundException e)
+            {
+                return NotFound(e);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
 
         /// <summary>
@@ -74,24 +98,22 @@ namespace Web.Controllers
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid status value</response>
         [HttpGet]
-        [Route("/schmettr/schmettr/1.0.0/message/findByCategories")]
+        [Route("/schmettr/schmettr/1.0.0/messages/findByCategories")]
         [ValidateModelState]
         [SwaggerOperation("FindMessagesByCategroies")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<Message>), description: "successful operation")]
-        public virtual IActionResult FindMessagesByCategroies([FromQuery][Required()]List<Category> category)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<Message>));
+        [SwaggerResponse(statusCode: 200, type: typeof(List<MessageDto>), description: "successful operation")]
+        public virtual IActionResult FindMessagesByCategroies([FromQuery][Required]List<Guid> categoryIds)
+        {
+            try
+            {
+                var messages = _messageService.GetByCategories(categoryIds);
+                return Ok(messages);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
 
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-            string exampleJson = null;
-            exampleJson = "[ {\n  \"owner\" : {\n    \"password\" : \"password\",\n    \"id\" : 1,\n    \"email\" : \"email\",\n    \"username\" : \"username\"\n  },\n  \"comments\" : [ {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  }, {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  } ],\n  \"id\" : 0,\n  \"categories\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 6\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 6\n  } ],\n  \"content\" : \"content\"\n}, {\n  \"owner\" : {\n    \"password\" : \"password\",\n    \"id\" : 1,\n    \"email\" : \"email\",\n    \"username\" : \"username\"\n  },\n  \"comments\" : [ {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  }, {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  } ],\n  \"id\" : 0,\n  \"categories\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 6\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 6\n  } ],\n  \"content\" : \"content\"\n} ]";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<List<Message>>(exampleJson)
-                        : default(List<Message>);            //TODO: Change the data returned
-            return new ObjectResult(example);
         }
 
         /// <summary>
@@ -102,45 +124,48 @@ namespace Web.Controllers
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Message not found</response>
-        [HttpGet]
-        [Route("/schmettr/schmettr/1.0.0/message/{messageId}")]
-        [Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
-        [ValidateModelState]
-        [SwaggerOperation("GetMessageById")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Message), description: "successful operation")]
-        public virtual IActionResult GetMessageById([FromRoute][Required]long? messageId)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Message));
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "{\n  \"owner\" : {\n    \"password\" : \"password\",\n    \"id\" : 1,\n    \"email\" : \"email\",\n    \"username\" : \"username\"\n  },\n  \"comments\" : [ {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  }, {\n    \"id\" : 5,\n    \"content\" : \"content\"\n  } ],\n  \"id\" : 0,\n  \"categories\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 6\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 6\n  } ],\n  \"content\" : \"content\"\n}";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<Message>(exampleJson)
-                        : default(Message);            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
+        //[HttpGet]
+        //[Route("/schmettr/schmettr/1.0.0/message/{messageId}")]
+        //[Authorize(AuthenticationSchemes = ApiKeyAuthenticationHandler.SchemeName)]
+        //[ValidateModelState]
+        //[SwaggerOperation("GetMessageById")]
+        //[SwaggerResponse(statusCode: 200, type: typeof(MessageDto), description: "successful operation")]
+        //public virtual IActionResult GetMessageById([FromRoute][Required]Guid messageId)
+        //{
+        //    try
+        //    {
+        //        var message = _messageService.GetBy(messageId);
+        //        return Ok(message);
+        //    }
+        //    catch (MessageNotFoundException e)
+        //    {
+        //        return NotFound(e);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return Problem(e.Message);
+        //    }
+        //}
 
         /// <summary>
         /// Get all messages
         /// </summary>
         /// <response code="405">Invalid input</response>
         [HttpGet]
-        [Route("/schmettr/schmettr/1.0.0/message")]
+        [Route("/schmettr/schmettr/1.0.0/messages")]
         [ValidateModelState]
         [SwaggerOperation("GetMessages")]
         public virtual IActionResult GetMessages()
-        { 
-            //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(405);
-
-            throw new NotImplementedException();
+        {
+            try
+            {
+                var messages = _messageService.GetAll();
+                return Ok(messages);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
 
     }
