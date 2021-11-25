@@ -18,15 +18,15 @@ export const deleteMessage = createAction('[Dashboard] delete Message', props<{ 
 export const deleteMessageSuccess = createAction('[Dashboard] delete Message Success')
 export const deleteMessageFailure = createAction('[Dashboard] delete Message Failure')
 
-export const postVote = createAction('[Dashboard] post Vote', props<{ vote: VoteModel, msgId: string }>())
+export const postVote = createAction('[Dashboard] post Vote', props<{ vote: VoteModel, msgId: string, token: string }>())
 export const postVoteSuccess = createAction('[Dashboard] post Vote Success')
 export const postVoteFailure = createAction('[Dashboard] post Vote Failure')
 
-export const patchVote = createAction('[Dashboard] patch Vote', props<{ vote: VoteModel, msgId: string }>())
+export const patchVote = createAction('[Dashboard] patch Vote', props<{ vote: VoteModel, msgId: string, token: string }>())
 export const patchVoteSuccess = createAction('[Dashboard] patch Vote Success')
 export const patchVoteFailure = createAction('[Dashboard] patch Vote Failure')
 
-export const postComment = createAction('[Dashboard] post Comment', props<{ comment: CreateCommentModel, msgId: string }>())
+export const postComment = createAction('[Dashboard] post Comment', props<{ comment: CreateCommentModel, msgId: string, token: string }>())
 export const postCommentSuccess = createAction('[Dashboard] post Comment Success')
 export const postCommentFailure = createAction('[Dashboard] post Comment Failure')
 

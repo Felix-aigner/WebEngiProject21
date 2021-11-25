@@ -35,21 +35,29 @@ export class MessageFeedComponent implements OnInit {
 
   addNewComment(comment: string, msg: Message) {
     const currUserId = this.currUser?.id
-    if (msg.id && currUserId) {
-      this.store.dispatch(postComment({msgId: msg.id, comment: {OwnerId: currUserId, Content: comment}}))
+    const currUserToken = this.currUser?.accessToken
+    console.log(currUserToken)
+    if (msg.id && currUserId && currUserToken) {
+      this.store.dispatch(postComment({
+        msgId: msg.id,
+        comment: {OwnerId: currUserId, Content: comment},
+        token: currUserToken
+      }))
 
     }
   }
 
   voteMessage(vote: VoteModel, msg: Message) {
-    if (msg.id) {
-      this.store.dispatch(postVote({vote, msgId: msg.id}))
+    const currUserToken = this.currUser?.accessToken
+    if (msg.id && currUserToken) {
+      this.store.dispatch(postVote({vote, msgId: msg.id, token: currUserToken}))
     }
   }
 
   patchVote(vote: VoteModel, msg: Message) {
-    if (msg.id) {
-      this.store.dispatch(patchVote({vote, msgId: msg.id}))
+    const currUserToken = this.currUser?.accessToken
+    if (msg.id && currUserToken) {
+      this.store.dispatch(patchVote({vote, msgId: msg.id, token: currUserToken}))
     }
   }
 

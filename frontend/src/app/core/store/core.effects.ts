@@ -6,8 +6,6 @@ import {
   getUsersFailure,
   getUsersSuccess,
   logout,
-  logoutFailure,
-  logoutSuccess,
   postGoogleLogin,
   postGoogleLoginFailure,
   postGoogleLoginSuccess,
@@ -105,10 +103,9 @@ export class CoreEffects {
     this.action$.pipe(
       ofType(logout),
       concatMap((action) =>
-        this.coreService.postLogout(action.refreshToken).pipe(
-          map(() => logoutSuccess()),
-          catchError(() => of(logoutFailure()))
-        )
+        [
+          getMessages()
+        ]
       )
     )
   );

@@ -90,7 +90,7 @@ export class DashboardEffects {
     this.actions$.pipe(
       ofType(postVote),
       mergeMap((action) =>
-        this.dashboardService.postVote(action.vote, action.msgId).pipe(
+        this.dashboardService.postVote(action.vote, action.msgId, action.token).pipe(
           map(() => postVoteSuccess()),
           catchError(() => of(postVoteFailure()))
         )
@@ -112,7 +112,7 @@ export class DashboardEffects {
     this.actions$.pipe(
       ofType(patchVote),
       mergeMap((action) =>
-        this.dashboardService.patchVote(action.vote, action.msgId).pipe(
+        this.dashboardService.patchVote(action.vote, action.msgId, action.token).pipe(
           map(() => patchVoteSuccess()),
           catchError(() => of(patchVoteFailure()))
         )
@@ -134,7 +134,7 @@ export class DashboardEffects {
     this.actions$.pipe(
       ofType(postComment),
       mergeMap((action) =>
-        this.dashboardService.postComment(action.comment, action.msgId).pipe(
+        this.dashboardService.postComment(action.comment, action.msgId, action.token).pipe(
           map(() => postCommentSuccess()),
           catchError(() => of(postCommentFailure()))
         )

@@ -66,9 +66,7 @@ export class SidenavListComponent implements OnInit {
   }
 
   logout(refreshToken: string | undefined) {
-    if (refreshToken) {
-      this.store.dispatch(logout({refreshToken}))
-      this.onSidenavClose()
-    }
+    this.store.dispatch(logout())
+    this.onSidenavClose()
   }
 }

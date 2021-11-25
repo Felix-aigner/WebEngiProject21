@@ -16,22 +16,18 @@ export class CoreService {
   }
 
   postUsername(id: string, username: string) {
-    return this.http.patch(`api/users/${id}`, username)
+    return this.http.patch(`api/user/${username}`, {id: id})
   }
 
   postLogin(loginCredential: LoginCredential): Observable<User> {
-    return this.http.post<User>('api/users/authentication', loginCredential);
+    return this.http.post<User>('api/user/authentication', loginCredential);
   }
 
   postGoogleLogin(googleLoginCredential: GoogleCredentials): Observable<User> {
-    return this.http.post<User>('api/users/authentication', googleLoginCredential);
+    return this.http.post<User>('api/user/authentication/google', googleLoginCredential);
   }
 
   postSignUp(signUpInformation: SignUpInformation) {
     return this.http.post('api/user', signUpInformation)
-  }
-
-  postLogout(refreshToken: string) {
-    return this.http.post('api/users/logout', refreshToken)
   }
 }
