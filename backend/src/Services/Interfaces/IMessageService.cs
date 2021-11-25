@@ -13,5 +13,6 @@ namespace Services.Interfaces
         MessageDto GetBy(Guid id);
         MessageDto AddComment(Guid messageId, CommentCreateDto commentDto);
 
+        MessageDto AddVote(Guid messageId, VoteCreateDto voteDto);
     }
 }

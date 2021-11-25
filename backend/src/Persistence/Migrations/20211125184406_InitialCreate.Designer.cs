@@ -10,7 +10,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211125142653_InitialCreate")]
+    [Migration("20211125184406_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,7 +143,7 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("MessageId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("VoteEnum")
@@ -153,7 +153,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("MessageId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Vote");
                 });
@@ -203,13 +203,13 @@ namespace Persistence.Migrations
                         .WithMany("Votes")
                         .HasForeignKey("MessageId");
 
-                    b.HasOne("Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
+                    b.HasOne("Domain.Entities.User", "Owner")
+                        .WithMany("Votes")
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Message");
 
-                    b.Navigation("User");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Domain.Entities.Message", b =>
@@ -224,6 +224,8 @@ namespace Persistence.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Messages");
+
+                    b.Navigation("Votes");
                 });
 #pragma warning restore 612, 618
         }

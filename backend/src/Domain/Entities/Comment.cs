@@ -21,7 +21,7 @@ namespace Domain.Entities
         public string Content { get; set; }
 
         [Required]
-        public User Owner { get; set; }
+        public virtual User Owner { get; set; }
 
     }
 }

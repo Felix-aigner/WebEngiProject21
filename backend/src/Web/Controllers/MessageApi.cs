@@ -165,6 +165,33 @@ namespace Web.Controllers
         }
 
         /// <summary>
+        /// Add a new vote
+        /// </summary>
+        /// <param name="body">Vote object that needs to be added to the message</param>
+        /// <param name="messageId">ID of message to return</param>
+        /// <response code="405">Invalid input</response>
+        [HttpPost]
+        [Route("/schmettr/schmettr/1.0.0/message/{messageId}/votes")]
+        [ValidateModelState]
+        [SwaggerOperation("AddVote")]
+        public virtual IActionResult AddVote([FromBody] VoteCreateDto body, [FromRoute][Required] Guid messageId)
+        {
+            try
+            {
+                var message = _messageService.AddVote(messageId, body);
+                return Ok(message);
+            }
+            catch (MessageNotFoundException e)
+            {
+                return NotFound(e);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        /// <summary>
         /// Find message by ID
         /// </summary>
         /// <remarks>Returns a single message</remarks>

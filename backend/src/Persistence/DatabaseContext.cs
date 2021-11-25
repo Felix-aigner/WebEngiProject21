@@ -18,6 +18,11 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+                        .HasMany(u => u.Votes);
+            modelBuilder.Entity<User>()
+                        .HasMany(u => u.Comments);
             modelBuilder.Entity<User>()
                         .HasMany(u => u.Messages);
             modelBuilder.Entity<Message>()
