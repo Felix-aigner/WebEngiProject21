@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
 
   likedMessages(messages: Message[], user: User | undefined | null) {
     if (user?.id) {
-      return messages.filter((messages) => (messages.votes) && messages.votes.filter((vote) => vote.userId == user.id && vote.voteFlag == "up").length >= 1)
+      return messages.filter((messages) => (messages.votes) && messages.votes.filter((vote) => vote.owner.id == user.id && vote.voteEnum == "up").length >= 1)
     }
     return []
   }

@@ -1,5 +1,7 @@
+import {User} from "./user.model";
+
 export interface VoteModel {
   id?: string
-  userId: string;
-  voteFlag: string
+  owner: User;
+  voteEnum: string
 }

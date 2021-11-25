@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Message} from "../../shared/models/message.model";
 import {Category} from "../../shared/models/category.model";
-import {VoteModel} from "../../shared/models/vote.model";
+import {CreateVoteModel} from "../../shared/models/createVoteModel";
 import {CreateMessageModel} from "../../shared/models/create-message.model";
 import {CreateCommentModel} from "../../shared/models/create-comment.model";
 
@@ -26,14 +26,14 @@ export class DashboardService {
     return this.http.delete(`api/messages/${msgId}`)
   }
 
-  postVote(vote: VoteModel, msgId: string, token: string) {
-    return this.http.post(`api/messages/${msgId}/votes`, vote, {
+  postVote(vote: CreateVoteModel, msgId: string, token: string) {
+    return this.http.post(`api/message/${msgId}/votes`, vote, {
       headers: new HttpHeaders().set('Authorization', `Bearer ${token}`)
     })
   }
 
-  patchVote(vote: VoteModel, msgId: string, token: string) {
-    return this.http.patch(`api/messages/${msgId}/votes`, vote, {
+  patchVote(vote: CreateVoteModel, msgId: string, token: string) {
+    return this.http.patch(`api/message/${msgId}/votes`, vote, {
       headers: new HttpHeaders().set('Authorization', `Bearer ${token}`)
     })
   }

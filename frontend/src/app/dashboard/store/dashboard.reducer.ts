@@ -12,57 +12,8 @@ export interface DashboardState {
 
 // remove after testing
 export const initialState: DashboardState = {
-  messages: [
-    {
-      id: "awdawdawd",
-      content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
-      comments: [],
-      votes: [
-        {userId: "yolo", voteFlag: "up"},
-        {userId: "something", voteFlag: "up"},
-        {userId: "something", voteFlag: "up"},
-        {userId: "something", voteFlag: "up"},
-        {userId: "something", voteFlag: "up"},
-        {userId: "something", voteFlag: "up"},
-        {userId: "something", voteFlag: "up"},
-        {userId: "something", voteFlag: "up"},
-        {userId: "something", voteFlag: "down"},
-        {userId: "something", voteFlag: "down"},
-        {userId: "something", voteFlag: "down"},
-      ],
-      categories: [
-        {id: "0", name: 'first cat'},
-        {id: "0", name: 'second cat'},
-        {id: "0", name: 'politics'},
-        {id: "0", name: 'climate'},
-        {id: "0", name: 'personal affairs'}
-      ],
-      owner: {username: "hansPeter69"},
-    }, {
-      id: "awdawdawd",
-      content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
-      comments: [],
-      votes: [],
-      categories: [
-        {id: "0", name: 'first cat'},
-        {id: "0", name: 'politics'},
-        {id: "0", name: 'climate'},
-      ],
-      owner: {username: "hansPeter69"}
-    }, {
-      id: "awdawdawd",
-      content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren",
-      comments: [],
-      votes: [],
-      categories: [
-        {id: "0", name: 'personal affairs'}
-      ]
-    },
-  ],
-  categories: [
-    {id: "0", name: 'first cat'},
-    {id: "0", name: 'second cat'}
-  ]
+  messages: [],
+  categories: []
 }
 
 export const dashboardReducer = createReducer(

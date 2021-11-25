@@ -1,7 +1,7 @@
 import {createAction, props} from "@ngrx/store";
 import {Message} from "../../shared/models/message.model";
 import {Category} from "../../shared/models/category.model";
-import {VoteModel} from "../../shared/models/vote.model";
+import {CreateVoteModel} from "../../shared/models/createVoteModel";
 import {CreateMessageModel} from "../../shared/models/create-message.model";
 import {CreateCommentModel} from "../../shared/models/create-comment.model";
 
@@ -18,11 +18,11 @@ export const deleteMessage = createAction('[Dashboard] delete Message', props<{ 
 export const deleteMessageSuccess = createAction('[Dashboard] delete Message Success')
 export const deleteMessageFailure = createAction('[Dashboard] delete Message Failure')
 
-export const postVote = createAction('[Dashboard] post Vote', props<{ vote: VoteModel, msgId: string, token: string }>())
+export const postVote = createAction('[Dashboard] post Vote', props<{ vote: CreateVoteModel, msgId: string, token: string }>())
 export const postVoteSuccess = createAction('[Dashboard] post Vote Success')
 export const postVoteFailure = createAction('[Dashboard] post Vote Failure')
 
-export const patchVote = createAction('[Dashboard] patch Vote', props<{ vote: VoteModel, msgId: string, token: string }>())
+export const patchVote = createAction('[Dashboard] patch Vote', props<{ vote: CreateVoteModel, msgId: string, token: string }>())
 export const patchVoteSuccess = createAction('[Dashboard] patch Vote Success')
 export const patchVoteFailure = createAction('[Dashboard] patch Vote Failure')
 

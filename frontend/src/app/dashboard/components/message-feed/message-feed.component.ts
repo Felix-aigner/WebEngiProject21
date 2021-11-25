@@ -3,7 +3,7 @@ import {Message} from "../../../shared/models/message.model";
 import {Category} from "../../../shared/models/category.model";
 import {FormGroup} from "@angular/forms";
 import {User} from "../../../shared/models/user.model";
-import {VoteModel} from "../../../shared/models/vote.model";
+import {CreateVoteModel} from "../../../shared/models/createVoteModel";
 import {DashboardState} from "../../store/dashboard.reducer";
 import {Store} from "@ngrx/store";
 import {patchVote, postComment, postVote} from "../../store/dashboard.actions";
@@ -47,14 +47,14 @@ export class MessageFeedComponent implements OnInit {
     }
   }
 
-  voteMessage(vote: VoteModel, msg: Message) {
+  voteMessage(vote: CreateVoteModel, msg: Message) {
     const currUserToken = this.currUser?.accessToken
     if (msg.id && currUserToken) {
       this.store.dispatch(postVote({vote, msgId: msg.id, token: currUserToken}))
     }
   }
 
-  patchVote(vote: VoteModel, msg: Message) {
+  patchVote(vote: CreateVoteModel, msg: Message) {
     const currUserToken = this.currUser?.accessToken
     if (msg.id && currUserToken) {
       this.store.dispatch(patchVote({vote, msgId: msg.id, token: currUserToken}))

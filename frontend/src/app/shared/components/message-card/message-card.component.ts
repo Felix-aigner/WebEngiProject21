@@ -3,7 +3,7 @@ import {Message} from "../../models/message.model";
 import {MatDialog} from "@angular/material/dialog";
 import {CommentaryDialogComponent} from "../commentary-dialog/commentary-dialog.component";
 import {User} from "../../models/user.model";
-import {VoteModel} from "../../models/vote.model";
+import {CreateVoteModel} from "../../models/createVoteModel";
 import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
@@ -12,8 +12,8 @@ import {ConfirmationDialogComponent} from "../confirmation-dialog/confirmation-d
   styleUrls: ['./message-card.component.scss']
 })
 export class MessageCardComponent implements OnInit {
-  @Output() voteMsg: EventEmitter<VoteModel> = new EventEmitter<VoteModel>()
-  @Output() patchVote: EventEmitter<VoteModel> = new EventEmitter<VoteModel>()
+  @Output() voteMsg: EventEmitter<CreateVoteModel> = new EventEmitter<CreateVoteModel>()
+  @Output() patchVote: EventEmitter<CreateVoteModel> = new EventEmitter<CreateVoteModel>()
   @Output() newComment: EventEmitter<string> = new EventEmitter<string>()
   @Output() deleteMessageWithId: EventEmitter<string> = new EventEmitter<string>()
   @Input() msg!: Message
@@ -52,9 +52,9 @@ export class MessageCardComponent implements OnInit {
       return false
     }
     if (this.msg.votes) {
-      const currVotes = this.msg.votes.filter((vote) => (vote.userId == this.currUser?.id))
+      const currVotes = this.msg.votes.filter((vote) => (vote.owner.id == this.currUser?.id))
       if (currVotes.length !== 0) {
-        return currVotes[0].voteFlag == "up"
+        return currVotes[0].voteEnum == "up"
       }
     }
     return true
@@ -65,9 +65,9 @@ export class MessageCardComponent implements OnInit {
       return false
     }
     if (this.msg.votes) {
-      const currVotes = this.msg.votes.filter((vote) => (vote.userId == this.currUser?.id))
+      const currVotes = this.msg.votes.filter((vote) => (vote.owner.id == this.currUser?.id))
       if (currVotes.length !== 0) {
-        return currVotes[0].voteFlag == "down"
+        return currVotes[0].voteEnum == "down"
       }
     }
     return true
@@ -75,13 +75,13 @@ export class MessageCardComponent implements OnInit {
 
   getDownVotes(): number {
     if (this.msg.votes)
-      return this.msg.votes.filter(x => x.voteFlag == "down").length
+      return this.msg.votes.filter(x => x.voteEnum == "down").length
     return 0
   }
 
   getUpVotes(): number {
     if (this.msg.votes)
-      return this.msg.votes.filter(x => x.voteFlag == "up").length
+      return this.msg.votes.filter(x => x.voteEnum == "up").length
     return 0
   }
 
@@ -89,15 +89,17 @@ export class MessageCardComponent implements OnInit {
     if (!this.msg.votes) {
       this.msg.votes = []
     }
-    const currVoting = this.msg.votes.filter((vote) => vote.userId == this.currUser?.id)[0]
-    if (currVoting) {
-      let newVoting: VoteModel = {...currVoting}
-      newVoting.voteFlag = voteValue
+    const currVoting = this.msg.votes.filter((vote) => vote.owner.id == this.currUser?.id)[0]
+    console.log(currVoting)
+    if (currVoting && currVoting.owner.id) {
+      let newVoting: CreateVoteModel = {voteId: currVoting.id, ownerId: currVoting.owner.id, voteEnum: voteValue}
+      console.log(newVoting)
       this.patchVote.emit(newVoting)
     } else {
       const id = this.currUser?.id
       if (id) {
-        this.voteMsg.emit({userId: id, voteFlag: voteValue})
+        console.log("new")
+        this.voteMsg.emit({ownerId: id, voteEnum: voteValue})
       }
     }
   }
