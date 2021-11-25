@@ -11,7 +11,7 @@ namespace Services.Interfaces
         List<MessageDto> GetAll();
         List<MessageDto> GetByCategories(List<Guid> categoryIds);
         MessageDto GetBy(Guid id);
-        //MessageDto AddComment(Guid messageId, CommentDto commentDto);
+        MessageDto AddComment(Guid messageId, CommentCreateDto commentDto);
 
     }
 }

@@ -69,12 +69,11 @@ namespace Persistence
                              .ToList();
         }
 
-        //public Message AddComment(MessageDto message, CommentDto comment)
-        //{
-        //    _dbContext.Users.Attach(message.Owner);
-        //    message.Comments.Add(comment);
-        //    _dbContext.SaveChanges();
-        //    return message;
-        //}
+        public Message AddComment(Message message, Comment comment)
+        {
+            message.Comments.Add(comment);
+            _dbContext.SaveChanges();
+            return message;
+        }
     }
 }

@@ -94,11 +94,6 @@ namespace Web.Controllers
             }
         }
 
-        public class Bla
-        {
-            public Guid id;
-        }
-
         /// <summary>
         /// Update user
         /// </summary>
