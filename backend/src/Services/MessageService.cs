@@ -95,6 +95,11 @@ namespace Services
                 throw new Exception("Vote does not belong to Message");
             }
 
+            if (vote.Owner.Id != patchDto.OwnerId)
+            {
+                throw new Exception("Vote does not belong to this user");
+            }
+
             vote.VoteEnum = patchDto.VoteEnum;
             _voteRepository.SaveChanges();            
         }

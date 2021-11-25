@@ -74,7 +74,7 @@ namespace Services
         {
             var user = _userRepository.GetBy(username);
             
-            if (user == null || BCrypt.Net.BCrypt.Verify(password, user.Password))
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 throw new AuthenticationException($"Either username or password is wrong");
             }
