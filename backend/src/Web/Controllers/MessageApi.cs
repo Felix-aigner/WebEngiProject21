@@ -41,6 +41,27 @@ namespace Web.Controllers
         }
 
         /// <summary>
+        /// Get all messages
+        /// </summary>
+        /// <response code="405">Invalid input</response>
+        [HttpGet]
+        [Route("/schmettr/schmettr/1.0.0/messages")]
+        [ValidateModelState]
+        [SwaggerOperation("GetMessages")]
+        public virtual IActionResult GetMessages()
+        {
+            try
+            {
+                var messages = _messageService.GetAll();
+                return Ok(messages);
+            }
+            catch (Exception e)
+            {
+                return Problem(e.Message);
+            }
+        }
+
+        /// <summary>
         /// Add a new message
         /// </summary>
         /// <param name="body">Message object that needs to be added to the message board</param>
@@ -94,7 +115,7 @@ namespace Web.Controllers
         /// Finds Messages by category
         /// </summary>
         /// <remarks>Multiple category values can be provided with comma separated strings</remarks>
-        /// <param name="category">Category values that need to be considered for filter</param>
+        /// <param name="categoryIds">CategoryIds that need to be considered for filter</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid status value</response>
         [HttpGet]
@@ -146,27 +167,6 @@ namespace Web.Controllers
         //        return Problem(e.Message);
         //    }
         //}
-
-        /// <summary>
-        /// Get all messages
-        /// </summary>
-        /// <response code="405">Invalid input</response>
-        [HttpGet]
-        [Route("/schmettr/schmettr/1.0.0/messages")]
-        [ValidateModelState]
-        [SwaggerOperation("GetMessages")]
-        public virtual IActionResult GetMessages()
-        {
-            try
-            {
-                var messages = _messageService.GetAll();
-                return Ok(messages);
-            }
-            catch (Exception e)
-            {
-                return Problem(e.Message);
-            }
-        }
-
+        
     }
 }

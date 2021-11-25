@@ -30,7 +30,13 @@ namespace Services
             return _mapper.Map<UserDto>(createdUser);
         }
 
-        public User GetBy(string username)
+        public UserDto GetBy(string username)
+        {
+            var user = GetUserBy(username);
+            return _mapper.Map<UserDto>(user);
+        }
+
+        private User GetUserBy(string username)
         {
             var user = _userRepository.GetBy(username);
 
@@ -56,7 +62,7 @@ namespace Services
 
         public void Delete(string username)
         {
-            var userToDelete = GetBy(username);
+            var userToDelete = GetUserBy(username);
             _userRepository.Delete(userToDelete);
         }
     }

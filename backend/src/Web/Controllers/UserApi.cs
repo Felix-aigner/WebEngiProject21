@@ -94,25 +94,29 @@ namespace Web.Controllers
             }
         }
 
+        public class Bla
+        {
+            public Guid id;
+        }
+
         /// <summary>
-        /// Updated user
+        /// Update user
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="userId">Update userid</param>
-        /// <param name="username">name that need to be updated</param>
+        /// <param name="user">User with id</param>
+        /// <param name="username">New name</param>
         /// <response code="400">Invalid user supplied</response>
         /// <response code="404">User not found</response>
         [HttpPut]
         [Route("/schmettr/schmettr/1.0.0/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
-        public virtual IActionResult UpdateUser([FromBody] Guid userId, [FromRoute][Required] string username)
+        public virtual IActionResult UpdateUser([FromBody] UserUpdateDto user, [FromRoute][Required] string username)
         {
-
             try
             {
-                var user = _userService.Update(userId, username);
-                return Ok(user);
+                var updatedUser = _userService.Update(user.Id, username);
+                return Ok(updatedUser);
             }
             catch (UsernameAlreadyExistsException e)
             {
@@ -122,14 +126,6 @@ namespace Web.Controllers
             {
                 return Problem(e.Message);
             }
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -145,22 +141,21 @@ namespace Web.Controllers
         [SwaggerOperation("GetUserByName")]
         [SwaggerResponse(statusCode: 200, type: typeof(UserDto), description: "successful operation")]
         public virtual IActionResult GetUserByName([FromRoute][Required]string username)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(User));
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400);
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "{\n  \"password\" : \"password\",\n  \"id\" : 1,\n  \"email\" : \"email\",\n  \"username\" : \"username\"\n}";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<UserDto>(exampleJson)
-                        : default(UserDto);            //TODO: Change the data returned
-            return new ObjectResult(example);
+        {
+            try
+            {
+                var user = _userService.GetBy(username);
+                return Ok(user);
+            }
+            catch (UserNotFoundException e)
+            {
+                return NotFound(e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         /// <summary>
