@@ -13,6 +13,10 @@ export const postMessage = createAction('[Dashboard] post Message', props<{ mess
 export const postMessageSuccess = createAction('[Dashboard] post Message Success')
 export const postMessageFailure = createAction('[Dashboard] post Message Failure')
 
+export const deleteMessage = createAction('[Dashboard] delete Message', props<{ messageId: string }>())
+export const deleteMessageSuccess = createAction('[Dashboard] delete Message Success')
+export const deleteMessageFailure = createAction('[Dashboard] delete Message Failure')
+
 export const postVote = createAction('[Dashboard] post Vote', props<{ vote: VoteModel, msgId: string }>())
 export const postVoteSuccess = createAction('[Dashboard] post Vote Success')
 export const postVoteFailure = createAction('[Dashboard] post Vote Failure')

@@ -1,6 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {
+  deleteMessage,
+  deleteMessageFailure,
+  deleteMessageSuccess,
   getCategories,
   getCategoriesFailure,
   getCategoriesSuccess,
@@ -60,6 +63,28 @@ export class DashboardEffects {
       )
     )
   );
+
+  deleteMessage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteMessage),
+      mergeMap((action) =>
+        this.dashboardService.deleteMessage(action.messageId).pipe(
+          map(() => deleteMessageSuccess()),
+          catchError(() => of(deleteMessageFailure()))
+        )
+      )
+    )
+  );
+
+  deleteMessageSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteMessageSuccess),
+      concatMap(() => [
+          getMessages()
+        ]
+      )
+    )
+  )
 
   postVote$ = createEffect(() =>
     this.actions$.pipe(
