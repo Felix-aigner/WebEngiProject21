@@ -27,6 +27,9 @@ namespace Services
             {
                 throw new UsernameAlreadyExistsException($"Username {userDto.Username} already exists");
             }
+
+            userDto.Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
+            
             var createdUser = _userRepository.Create(userDto);
             return _mapper.Map<UserDto>(createdUser);
         }
@@ -71,7 +74,7 @@ namespace Services
         {
             var user = _userRepository.GetBy(username);
             
-            if (user == null || user.Password != password)
+            if (user == null || BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 throw new AuthenticationException($"Either username or password is wrong");
             }

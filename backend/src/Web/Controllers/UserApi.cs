@@ -162,16 +162,24 @@ namespace Web.Controllers
         [HttpPost("/schmettr/schmettr/1.0.0/user/authentication")]
         public virtual IActionResult Authentication([FromBody] AuthenticationCredentialDto authenticationCredential)
         {
-            var user = _userService.Authenticate(authenticationCredential.Username, authenticationCredential.Password);
-            var accessToken = _jwtService.GenerateAccessToken(user);
-            
-            return Ok(new AuthenticatedUserDto()
+            try
             {
-                Id = user.Id,
-                Username = user.Username,
-                Email = user.Email,
-                accessToken = accessToken,
-            });
+                var user = _userService.Authenticate(authenticationCredential.Username, authenticationCredential.Password);
+                var accessToken = _jwtService.GenerateAccessToken(user);
+            
+                return Ok(new AuthenticatedUserDto()
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Email = user.Email,
+                    accessToken = accessToken,
+                });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
         
         [HttpPost("/schmettr/schmettr/1.0.0/user/authentication/google")]

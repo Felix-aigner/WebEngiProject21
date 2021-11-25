@@ -107,7 +107,7 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vote",
+                name: "Votes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -118,15 +118,15 @@ namespace Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vote", x => x.Id);
+                    table.PrimaryKey("PK_Votes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vote_Messages_MessageId",
+                        name: "FK_Votes_Messages_MessageId",
                         column: x => x.MessageId,
                         principalTable: "Messages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Vote_Users_OwnerId",
+                        name: "FK_Votes_Users_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -154,13 +154,13 @@ namespace Persistence.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vote_MessageId",
-                table: "Vote",
+                name: "IX_Votes_MessageId",
+                table: "Votes",
                 column: "MessageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vote_OwnerId",
-                table: "Vote",
+                name: "IX_Votes_OwnerId",
+                table: "Votes",
                 column: "OwnerId");
         }
 
@@ -173,7 +173,7 @@ namespace Persistence.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Vote");
+                name: "Votes");
 
             migrationBuilder.DropTable(
                 name: "Categories");

@@ -94,6 +94,12 @@ namespace Web
                     entity => entity.CreatedDate,
                     opt => opt.MapFrom(x => DateTime.Now)
                 );
+            CreateMap<Vote, VotePatchDto>()
+                .ReverseMap()
+                .ForMember(
+                    entity => entity.CreatedDate,
+                    opt => opt.MapFrom(x => DateTime.Now)
+                );
         }
     }
 }

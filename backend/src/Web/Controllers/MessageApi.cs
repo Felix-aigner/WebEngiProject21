@@ -179,8 +179,8 @@ namespace Web.Controllers
         {
             try
             {
-                var message = _messageService.AddVote(messageId, body);
-                return Ok(message);
+                _messageService.AddVote(messageId, body);
+                return Ok();
             }
             catch (MessageNotFoundException e)
             {
@@ -189,6 +189,27 @@ namespace Web.Controllers
             catch (Exception e)
             {
                 return Problem(e.Message);
+            }
+        }
+        
+        [HttpPatch]
+        [Route("/schmettr/schmettr/1.0.0/message/{messageId}/votes")]
+        [ValidateModelState]
+        [SwaggerOperation("PatchVote")]
+        public virtual IActionResult PatchVote([FromBody] VotePatchDto body, [FromRoute][Required] Guid messageId)
+        {
+            try
+            {
+                _messageService.UpdateVote(messageId, body);
+                return Ok();
+            }
+            catch (MessageNotFoundException e)
+            {
+                return NotFound(e);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
             }
         }
 

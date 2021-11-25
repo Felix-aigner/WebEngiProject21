@@ -14,5 +14,7 @@ namespace Services.Interfaces
         MessageDto AddComment(Guid messageId, CommentCreateDto commentDto);
 
         MessageDto AddVote(Guid messageId, VoteCreateDto voteDto);
+
+        void UpdateVote(Guid messageId, VotePatchDto patchDto);
     }
 }

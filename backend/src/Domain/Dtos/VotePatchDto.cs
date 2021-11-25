@@ -5,21 +5,18 @@ using Domain.Entities;
 
 namespace Domain.Dtos
 {
-    public class VoteDto
+    public class VotePatchDto
     {
+        [Required]
+        [DataMember(Name = "voteId")]
+        public Guid VoteId { get; set; }
+        
         /// <summary>
         /// Gets or Sets Owner
         /// </summary>
         [Required]
-        [DataMember(Name = "id")]
-        public Guid Id { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Owner
-        /// </summary>
-        [Required]
-        [DataMember(Name = "owner")]
-        public UserDto Owner { get; set; }
+        [DataMember(Name = "ownerId")]
+        public Guid OwnerId { get; set; }
 
         /// <summary>
         /// Gets or Sets Content

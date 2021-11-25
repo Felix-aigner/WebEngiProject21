@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Entities;
@@ -12,13 +13,15 @@ namespace Services
     public class MessageService : IMessageService
     {
         private readonly IMessageRepository _messageRepository;
+        private readonly IVoteRepository _voteRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public MessageService(IMessageRepository messageRepository, ICategoryRepository categoryRepository, IUserRepository userRepository, IMapper mapper)
+        public MessageService(IMessageRepository messageRepository, IVoteRepository voteRepository, ICategoryRepository categoryRepository, IUserRepository userRepository, IMapper mapper)
         {
             _messageRepository = messageRepository;
+            _voteRepository = voteRepository;
             _categoryRepository = categoryRepository;
             _userRepository = userRepository;
             _mapper = mapper;
@@ -76,6 +79,24 @@ namespace Services
             vote.Owner = owner;
             var modifiedMessage = _messageRepository.AddVote(message, vote);
             return _mapper.Map<MessageDto>(modifiedMessage);
+        }
+
+        public void UpdateVote(Guid messageId, VotePatchDto patchDto)
+        {
+            var vote = _voteRepository.GetBy(patchDto.VoteId);
+
+            if (vote == null)
+            {
+                throw new Exception("Vote was not found");
+            }
+
+            if (vote.Message.Id != messageId)
+            {
+                throw new Exception("Vote does not belong to Message");
+            }
+
+            vote.VoteEnum = patchDto.VoteEnum;
+            _voteRepository.SaveChanges();            
         }
     }
 }

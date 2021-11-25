@@ -85,5 +85,10 @@ namespace Persistence
             _dbContext.SaveChanges();
             return message;
         }
+
+        public void SaveChanges()
+        {
+            _dbContext.SaveChanges();
+        }
     }
 }
