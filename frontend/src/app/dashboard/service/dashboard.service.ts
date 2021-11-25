@@ -13,11 +13,11 @@ export class DashboardService {
 
 
   getMessages(): Observable<Message[]> {
-    return this.http.get<Message[]>('api/messages');
+    return this.http.get<Message[]>(`api/messages`);
   }
 
   postMessage(msg: Message) {
-    return this.http.post('api/messages', msg);
+    return this.http.post(`api/messages`, msg);
   }
 
   postVote(vote: VoteModel, msgId: string) {
