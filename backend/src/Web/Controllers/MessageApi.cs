@@ -1,7 +1,7 @@
 /*
  * Swagger Schmettr
  *
- * This is the schmettr server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). 
+ * This is the schmettr server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).
  *
  * OpenAPI spec version: 1.0.0
  * Contact: apiteam@swagger.io
@@ -22,9 +22,9 @@ using Web.Attributes;
 using Web.Security;
 
 namespace Web.Controllers
-{ 
+{
     /// <summary>
-    /// 
+    ///
     /// </summary>
     [ApiController]
     public class MessageApiController : ControllerBase
@@ -32,7 +32,7 @@ namespace Web.Controllers
         private readonly IMessageService _messageService;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="messageService"></param>
         public MessageApiController(IMessageService messageService)
@@ -147,6 +147,7 @@ namespace Web.Controllers
         [Route("/schmettr/schmettr/1.0.0/message/{messageId}/comments")]
         [ValidateModelState]
         [SwaggerOperation("AddComment")]
+        [Authorize]
         public virtual IActionResult AddComment([FromBody] CommentCreateDto body, [FromRoute][Required] Guid messageId)
         {
             try
