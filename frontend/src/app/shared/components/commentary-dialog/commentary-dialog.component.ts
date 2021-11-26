@@ -25,4 +25,17 @@ export class CommentaryDialogComponent implements OnInit {
   submitNewComment() {
     this.dialogRef.close(this.commentaryForm.value.text)
   }
+
+
+  getDownVotes(): number {
+    if (this.msg.votes)
+      return this.msg.votes.filter(x => x.voteEnum == "down").length
+    return 0
+  }
+
+  getUpVotes(): number {
+    if (this.msg.votes)
+      return this.msg.votes.filter(x => x.voteEnum == "up").length
+    return 0
+  }
 }

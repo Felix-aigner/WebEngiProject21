@@ -32,5 +32,7 @@ export class CreateMessageComponent implements OnInit {
       CategoriesId: this.newMessageForm.controls['categories'].value.map((category: Category) => category.id.toUpperCase()),
     }
     this.newMessage.emit(newMsg)
+    this.newMessageForm.controls['messageText'].patchValue(' ')
+    this.newMessageForm.controls['categories'].patchValue('')
   }
 }
