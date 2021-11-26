@@ -1,5 +1,5 @@
-dotnet ef migrations add InitialCreate --startup-project "D:\Study\FH-Campus\3rd\WEB\WebEngiProject21\backend\src\Web\Web.csproj" --project "D:\Study\FH-Campus\3rd\WEB\WebEngiProject21\backend\src\Persistence\Persistence.csproj"
-dotnet ef database update --startup-project "D:\Study\FH-Campus\3rd\WEB\WebEngiProject21\backend\src\Web\Web.csproj" --project "D:\Study\FH-Campus\3rd\WEB\WebEngiProject21\backend\src\Persistence\Persistence.csproj"
+dotnet ef migrations add InitialCreate --startup-project ".\src\Web\Web.csproj" --project ".\src\Persistence\Persistence.csproj"
+dotnet ef database update --startup-project ".\src\Web\Web.csproj" --project ".\src\Persistence\Persistence.csproj"
 
 
 Userdto -> UserEntity: bei einzelnen weglassen
